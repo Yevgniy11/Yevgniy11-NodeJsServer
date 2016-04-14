@@ -21,7 +21,7 @@ router.get('/insertSnippetObject', (req, res)=>{
           {'failed':true,
            "message":"some thing went wrong",
            'err':err,
-           'req':'INSERT INTO SnippetObject(title,like_count,comments) VALUES ('+title+','+like_count+','+comments+');'
+           'req':query
          });
       }
     })
