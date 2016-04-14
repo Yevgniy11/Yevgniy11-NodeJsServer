@@ -78,7 +78,7 @@ router.get('/selectKluminati', (req, res)=>{
 });
 router.get('/insertKluminatiObject', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO Kluminati(id,title) VALUES(1,2);';
+    var query =  'INSERT INTO Kluminati(title) VALUES(2);';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created",'result':result});
@@ -111,7 +111,24 @@ res.json({'success':true, "message":"talbes created",'result':result});
 })
 })
 });
-
+router.get('/dropKlu', (req, res)=>{
+pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+var query =  'DROP TABLE Kluminati;';
+client.query(query, (err, result)=>{
+if(!err)
+res.json({'success':true, "message":"talbes created",'result':result});
+})
+})
+});
+router.get('/initKlu', (req, res)=>{
+pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+var query =  'CREATE TABLE Kluminati(id SERIAL PRIMARY KEY , title TEXT);';
+client.query(query, (err, result)=>{
+if(!err)
+res.json({'success':true, "message":"talbes created",'result':result});
+})
+})
+});
 module.exports = router;
 
 
