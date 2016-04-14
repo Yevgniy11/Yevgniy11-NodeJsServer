@@ -10,33 +10,33 @@ router.get('/insertSnippetObject', (req, res)=>{
   var comments = req.query.comments;
 
   if(title!=null && like_count!=null && comments!=null){
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
 
-    var query =  'INSERT INTO SnippetObject(pkid, title , likes , comments ) VALUES(DEFAULT, dd , 2 , 2 );';
-    /*
-    "pkid",
-    "name": "title",
-    "name": "like_count",
-    "name": "comments",
-    */
-    client.query(query, (err, result)=>{
-      if(!err)
+      var query =  'INSERT INTO SnippetObject(pkid, title , likes , comments ) VALUES(DEFAULT, dd , 2 , 2 );';
+      /*
+      "pkid",
+      "name": "title",
+      "name": "like_count",
+      "name": "comments",
+      */
+      client.query(query, (err, result)=>{
+        if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
-      else {
-        res.json(
-          {'failed':true,
-           "message":"some thing went wrong",
-           'err':err,
-           'req':query
-         });
-      }
+        else {
+          res.json(
+            {'failed':true,
+            "message":"some thing went wrong",
+            'err':err,
+            'req':query
+          });
+        }
+      });
     });
-  });
-}
-else
-{
-  res.json({'failed':true, "message":"null values sent"});
-}
+  }
+  else
+  {
+    res.json({'failed':true, "message":"null values sent"});
+  }
 });
 
 router.get('/initSnippetObjectDb', (req, res)=>{
@@ -103,31 +103,40 @@ router.get('/selectSnippetObject', (req, res)=>{
 
 
 router.get('/drop', (req, res)=>{
-pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-var query =  'DROP TABLE SnippetObject;';
-client.query(query, (err, result)=>{
-if(!err)
-res.json({'success':true, "message":"talbes created",'result':result});
-})
-})
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'DROP TABLE SnippetObject;';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created",'result':result});
+      else {
+        res.json({'success':false, "message":"talbes created",'result':err});
+      }
+    })
+  })
 });
 router.get('/dropKlu', (req, res)=>{
-pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-var query =  'DROP TABLE Kluminati;';
-client.query(query, (err, result)=>{
-if(!err)
-res.json({'success':true, "message":"talbes created",'result':result});
-})
-})
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'DROP TABLE Kluminati;';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created",'result':result});
+      else {
+        res.json({'success':false, "message":"talbes created",'result':err});
+      }
+    })
+  })
 });
 router.get('/initKlu', (req, res)=>{
-pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-var query =  'CREATE TABLE Kluminati(id SERIAL PRIMARY KEY , title TEXT);';
-client.query(query, (err, result)=>{
-if(!err)
-res.json({'success':true, "message":"talbes created",'result':result});
-})
-})
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'CREATE TABLE Kluminati(id SERIAL PRIMARY KEY , title TEXT);';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created",'result':result});
+      else {
+        res.json({'success':false, "message":"talbes created",'result':err});
+      }
+    })
+  })
 });
 module.exports = router;
 
