@@ -4,39 +4,6 @@ var pg = require('pg');
 
 /* GET home page. */
 
-router.get('/addnote', (req, res)=>{
-
-
-  var id = 1;
-  var title = 'OK';
-
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>
-  {
-    var q = 'INSERT INTO Notes(id, title) VALUES (' + id+','+ title+')';
-    client.query(q, (err, result)=>{
-      done();
-      if(!err)
-      res.json({success:true, message:'added note', 'res':result});
-    })
-  }
-);
-});
-
-router.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query("INSERT INTO Notes(id, title) VALUES ('1','rr')", function(err, result) {
-      done();
-      if (err)
-      {
-        console.error(err); response.send("Error " + err);
-      }
-      else
-      {
-        response.render('pages/db', {results: result.rows} );
-      }
-    });
-  });
-})
 router.get('/getValue', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var query =  'INSERT INTO Muhamad(id, title) VALUES (1,1);';
@@ -49,7 +16,7 @@ router.get('/getValue', (req, res)=>{
 
 router.get('/initdb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE Muhamad(id INT, title INT);';
+    var query =  'CREATE TABLE Kluminati(id INT, title TEXT);';
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created"});
@@ -57,17 +24,7 @@ router.get('/initdb', (req, res)=>{
   })
 });
 
-router.get('/g', function(req, res, next) {
 
-  var result = 'gfgffffasdas';
-  console.log('Connected');
-  /*var JsoN = {};
-  JsoN.yes = "Yep";
-  JsoN.why = "Maybe";
-  res.json(JsoN);*/
-  res.end(result);
-
-});
 module.exports = router;
 
 
