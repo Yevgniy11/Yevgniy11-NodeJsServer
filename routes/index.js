@@ -4,14 +4,20 @@ var pg = require('pg');
 
 /* GET home page. */
 
-router.post('/adduser', (req, res)=>{
-    var id = req.body.id;
-    var name = req.body.name;
-
+router.get('/addnote', (req, res)=>{
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-        var query = 'INSERT INTO AppUsers(id, name) VALUES (' + id+','+ name+')'
+        var query = 'INSERT INTO Notes(id, title,note) VALUES (1,'yes','ok')';
         client.query(query, (err, result)=>{
-            res.json({success:true, message:'added user', result});
+            res.json({success:true, message:'added note', result});
+        })
+    })
+});
+router.get('/getValue', (req, res)=>{
+    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+        var query =  'SELECT * FROM Notes;';
+        client.query(query, (err, result)=>{
+            if(err)
+              res.json({'success':true, "message":"talbes created",'result':result});
         })
     })
 });
@@ -20,8 +26,8 @@ router.get('/initdb', (req, res)=>{
         var query =  'CREATE TABLE SnippetObject(PKID INT, title TEXT,like_count INT,comments TEXT);' +
                      'CREATE TABLE Notes(id int, title TEXT, note TEXT);';
         client.query(query, (err, result)=>{
-
-            res.json({'success':true, "message":"talbes created"});
+            if(err)
+              res.json({'success':true, "message":"talbes created"});
         })
     })
 });
