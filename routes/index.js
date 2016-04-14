@@ -7,8 +7,9 @@ var pg = require('pg');
 router.get('/insertSnippetObject', (req, res)=>{
   var title = req.query.title ;
 
+
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO SnipetObject(id, title) VALUES (1,1);';
+    var query =  'INSERT INTO SnipetObject(pkid, title,like_count,comments) VALUES (1,1);';
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
@@ -39,6 +40,16 @@ router.get('/selectKluminati', (req, res)=>{
 router.get('/selectSnippetObject', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var query =  'SELECT * FROM SnippetObject;';
+    client.query(query, (err, result)=>{
+      if(!err)
+        res.json({'success':true, "message":"talbes created",'result':result});
+    })
+  })
+});
+
+router.get('/drop', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'DROP TABLE table_name SnippetObject;'+'DROP TABLE table_name Muhamad;'+'DROP TABLE table_name notes;';
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
