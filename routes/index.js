@@ -13,19 +13,22 @@ router.get('/insertSnippetObject', (req, res)=>{
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
-        else {
-          res.json({'failed':true, "message":"some thing went wrong"});
-        }
+      else {
+        res.json({'failed':true, "message":"some thing went wrong"});
+      }
     })
   })
 });
 
 router.get('/initSnippetObjectDb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE SnippetObject(pkid SERIAL,title TEXT,like_count INT,comments TEXT);';
+    var query =  'CREATE TABLE SnippetObject(pkid SERIAL PRIMARY KEY,title TEXT,like_count INT,comments TEXT);';
     client.query(query, (err, result)=>{
       if(!err)
-        res.json({'success':true, "message":"talbes created"});
+      res.json({'success':true, "message":"talbes created"});
+      else {
+        res.json({'failed':true, "message":"some thing went wrong"});
+      }
     })
   })
 });
@@ -35,7 +38,10 @@ router.get('/selectKluminati', (req, res)=>{
     var query =  'SELECT * FROM Kluminati;';
     client.query(query, (err, result)=>{
       if(!err)
-        res.json({'success':true, "message":"talbes created",'result':result});
+      res.json({'success':true, "message":"talbes created",'result':result});
+      else {
+        res.json({'failed':true, "message":"some thing went wrong"});
+      }
     })
   })
 });
@@ -45,22 +51,24 @@ router.get('/selectSnippetObject', (req, res)=>{
     var query =  'SELECT * FROM SnippetObject;';
     client.query(query, (err, result)=>{
       if(!err)
-        res.json({'success':true, "message":"talbes created",'result':result});
+      res.json({'success':true, "message":"talbes created",'result':result});
+      else {
+        res.json({'failed':true, "message":"some thing went wrong"});
+      }
     })
   })
 });
 
-/*
+
 router.get('/drop', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'DROP TABLE SnippetObject;'+'DROP TABLE muhamad;'+'DROP TABLE notes;';
-    client.query(query, (err, result)=>{
-      if(!err)
-        res.json({'success':true, "message":"talbes created",'result':result});
-    })
-  })
+pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+var query =  'DROP TABLE SnippetObject;';
+client.query(query, (err, result)=>{
+if(!err)
+res.json({'success':true, "message":"talbes created",'result':result});
+})
+})
 });
-*/
 
 module.exports = router;
 
