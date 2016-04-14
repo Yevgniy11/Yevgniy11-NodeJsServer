@@ -29,7 +29,7 @@ router.get('/select', (req, res)=>{
     var query =  'SELECT * FROM Kluminati;';
     client.query(query, (err, result)=>{
       if(!err)
-        res.json({'success':true, "message":"talbes created"});
+        res.json({'success':true, "message":"talbes created",'result':result});
     })
   })
 });
