@@ -30,8 +30,8 @@ router.get('/insertSnippetObject', (req, res)=>{
            'req':query
          });
       }
-    })
-  })
+    });
+  });
 }
 else
 {
