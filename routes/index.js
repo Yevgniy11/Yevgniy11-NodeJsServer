@@ -4,9 +4,11 @@ var pg = require('pg');
 
 /* GET home page. */
 
-router.get('/insertData', (req, res)=>{
+router.get('/insertSnippetObject', (req, res)=>{
+  var title = req.query.title ;
+
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO Kluminati(id, title) VALUES (1,1);';
+    var query =  'INSERT INTO SnipetObject(id, title) VALUES (1,1);';
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
@@ -24,7 +26,7 @@ router.get('/initdb', (req, res)=>{
   })
 });
 
-router.get('/select', (req, res)=>{
+router.get('/selectKluminati', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var query =  'SELECT * FROM Kluminati;';
     client.query(query, (err, result)=>{
@@ -33,6 +35,18 @@ router.get('/select', (req, res)=>{
     })
   })
 });
+
+router.get('/selectSnippetObject', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'SELECT * FROM SnippetObject;';
+    client.query(query, (err, result)=>{
+      if(!err)
+        res.json({'success':true, "message":"talbes created",'result':result});
+    })
+  })
+});
+
+
 module.exports = router;
 
 
