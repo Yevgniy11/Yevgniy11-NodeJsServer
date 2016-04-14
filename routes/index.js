@@ -1,18 +1,30 @@
 var express = require('express');
 var router = express.Router();
+var pg = require('pg');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
 
-  sendQuerry('SELECT * FROM SnippetObject');
-  /*var JsoN = {};
-  JsoN.yes = "Yep";
-  JsoN.why = "Maybe";
-  res.json(JsoN);*/
+router.post('/adduser', (req, res)=>{
+    var id = req.body.id;
+    var name = req.body.name;
 
-  res.end('dd');
+    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+        var query = 'INSERT INTO AppUsers(id, name) VALUES (' + id+','+ name+')'
+        client.query(query, (err, result)=>{
+            res.json({success:true, message:'added user', result});
+        })
+    })
 });
+router.get('/initdb', (req, res)=>{
+    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+        var query =  'CREATE TABLE SnippetObject(PKID INT, title TEXT,like_count INT,comments TEXT);' +
+                     'CREATE TABLE Notes(id int, title TEXT, note TEXT);';
+        client.query(query, (err, result)=>{
 
+            res.json({'success':true, "message":"talbes created"});
+        })
+    })
+});
 
 router.get('/g', function(req, res, next) {
 
