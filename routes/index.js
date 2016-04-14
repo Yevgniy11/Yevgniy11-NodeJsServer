@@ -5,33 +5,56 @@ var pg = require('pg');
 /* GET home page. */
 
 router.get('/addnote', (req, res)=>{
-    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-        //var query = 'INSERT INTO Notes(id, title,note) VALUES (1,"yes","ok");'
 
-        client.query('INSERT INTO Notes(id, title,note) VALUES (1,yes,ok);', (err, result)=>{
-          if(!err)
-            res.json({success:true, message:'added note', 'res':result});
-        })
+
+  var id = 1;
+  var title = 'OK';
+
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>
+  {
+    var q = 'INSERT INTO Notes(id, title) VALUES (' + id+','+ title+')';
+    client.query(q, (err, result)=>{
+      done();
+      if(!err)
+      res.json({success:true, message:'added note', 'res':result});
     })
+  }
+);
 });
+
+router.get('/db', function (request, response) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query("INSERT INTO Notes(id, title) VALUES ('1','rr')", function(err, result) {
+      done();
+      if (err)
+      {
+        console.error(err); response.send("Error " + err);
+      }
+      else
+      {
+        response.render('pages/db', {results: result.rows} );
+      }
+    });
+  });
+})
 router.get('/getValue', (req, res)=>{
-    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-        var query =  'SELECT * FROM Notes;';
-        client.query(query, (err, result)=>{
-            if(!err)
-              res.json({'success':true, "message":"talbes created",'result':result});
-        })
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'SELECT * FROM Notes;';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created",'result':result});
     })
+  })
 });
 router.get('/initdb', (req, res)=>{
-    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-        var query =  'CREATE TABLE SnippetObject(PKID INT, title TEXT,like_count INT,comments TEXT);' +
-                     'CREATE TABLE Notes(id int, title TEXT, note TEXT);';
-        client.query(query, (err, result)=>{
-            if(err)
-              res.json({'success':true, "message":"talbes created"});
-        })
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'CREATE TABLE JJ(PKID INT, title TEXT,like_count INT,comments TEXT);' +
+    'CREATE TABLE LL(id int, title TEXT, note TEXT);';
+    client.query(query, (err, result)=>{
+      if(err)
+      res.json({'success':true, "message":"talbes created"});
     })
+  })
 });
 
 router.get('/g', function(req, res, next) {
