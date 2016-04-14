@@ -19,7 +19,7 @@ router.get('/insertSnippetObject', (req, res)=>{
 
 router.get('/initSnippetObjectDb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE SnippetObject(pkid SERIAL,title VARCHAR2,like_count INT,comments VARCHAR2);';
+    var query =  'CREATE TABLE SnippetObject(pkid SERIAL,title TEXT,like_count INT,comments TEXT);';
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created"});
