@@ -6,7 +6,7 @@ var pg = require('pg');
 
 router.get('/addnote', (req, res)=>{
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-        var query = 'INSERT INTO Notes(id, title,note) VALUES (1,'yes','ok')';
+        var query = 'INSERT INTO Notes(id, title,note) VALUES (1,"yes","ok")';
         client.query(query, (err, result)=>{
             res.json({success:true, message:'added note', result});
         })
