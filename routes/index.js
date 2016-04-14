@@ -19,7 +19,11 @@ router.get('/insertSnippetObject', (req, res)=>{
         res.json({'failed':true, "message":"some thing went wrong"});
       }
     })
-  })
+  });
+}
+else
+{
+  res.json({'failed':true, "message":"null values sent"});
 }
 });
 
