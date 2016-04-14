@@ -13,6 +13,9 @@ router.get('/insertSnippetObject', (req, res)=>{
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
+        else {
+          res.json({'failed':true, "message":"some thing went wrong"});
+        }
     })
   })
 });
