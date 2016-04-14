@@ -39,7 +39,7 @@ router.get('/db', function (request, response) {
 })
 router.get('/getValue', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO Notes(id, title,note) VALUES (1,1,1);';
+    var query =  'INSERT INTO Muhamad(id, title) VALUES (1,1);';
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
