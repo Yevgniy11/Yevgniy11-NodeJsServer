@@ -49,7 +49,7 @@ router.get('/selectSnippetObject', (req, res)=>{
 
 router.get('/drop', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'DROP TABLE table_name SnippetObject;'+'DROP TABLE table_name Muhamad;'+'DROP TABLE table_name notes;';
+    var query =  'DROP TABLE SnippetObject;'+'DROP TABLE muhamad;'+'DROP TABLE notes;';
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
