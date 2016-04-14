@@ -6,10 +6,12 @@ var pg = require('pg');
 
 router.get('/insertSnippetObject', (req, res)=>{
   var title = req.query.title ;
+  var like_count = req.query.like_count;
+  var comments = req.query.comments;
 
-
+  if(title!=null && like_count!=null && comments!=null){
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO SnippetObject(title,like_count,comments) VALUES (1,1,1);';
+    var query =  'INSERT INTO SnippetObject(title,like_count,comments) VALUES ('+title+','+like_count+','+comments+');';
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
@@ -18,6 +20,7 @@ router.get('/insertSnippetObject', (req, res)=>{
       }
     })
   })
+}
 });
 
 router.get('/initSnippetObjectDb', (req, res)=>{
@@ -27,7 +30,7 @@ router.get('/initSnippetObjectDb', (req, res)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created"});
       else {
-        res.json({'failed':true, "message":"some thing went wrong"});
+        res.json({'failed':true, "message":"some thing went wrong",'err':err});
       }
     })
   })
