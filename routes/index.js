@@ -12,7 +12,7 @@ router.get('/insertSnippetObject', (req, res)=>{
   if(title!=null && like_count!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
 
-      var query =  'INSERT INTO SnippetObject(pkid, title , likes , comments ) VALUES(DEFAULT, dd , 2 , 2 );';
+      var query =  'INSERT INTO SnippetObject( title , likes , comments ) VALUES( dd , 2 , 2 );';
       /*
       "pkid",
       "name": "title",
@@ -41,7 +41,7 @@ router.get('/insertSnippetObject', (req, res)=>{
 
 router.get('/initSnippetObjectDb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE SnippetObject(pkid SERIAL PRIMARY KEY , title TEXT ,likes INT ,comments TEXT);';
+    var query =  'CREATE TABLE SnippetObject(id SERIAL PRIMARY KEY  , title TEXT ,likes INT ,comments TEXT);';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created"});
