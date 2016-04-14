@@ -24,7 +24,15 @@ router.get('/initdb', (req, res)=>{
   })
 });
 
-
+router.get('/select', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'SELECT * FROM Kluminati;';
+    client.query(query, (err, result)=>{
+      if(!err)
+        res.json({'success':true, "message":"talbes created"});
+    })
+  })
+});
 module.exports = router;
 
 
