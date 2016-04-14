@@ -11,8 +11,14 @@ router.get('/insertSnippetObject', (req, res)=>{
 
   if(title!=null && like_count!=null && comments!=null){
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO SnippetObject(pkid,title,like_count,comments) VALUES (1,dd,2,2);';
 
+    var query =  'INSERT INTO SnippetObject( title , like_count , comments ) VALUES ( dd , 2 , 2 );';
+    /*
+    "pkid",
+    "name": "title",
+    "name": "like_count",
+    "name": "comments",
+    */
     client.query(query, (err, result)=>{
       if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
@@ -25,7 +31,7 @@ router.get('/insertSnippetObject', (req, res)=>{
          });
       }
     })
-  });
+  })
 }
 else
 {
