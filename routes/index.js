@@ -54,7 +54,7 @@ router.get('/initSnippetObjectDb', (req, res)=>{
 
 router.get('/gg', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO SnippetObject( title , likes , comments ) VALUES( dd , 2 , 2 );';
+    var query =  'INSERT INTO SnippetObject(pkid, title , likes , comments ) VALUES(1, dd , 2 , 2 );';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created"});
