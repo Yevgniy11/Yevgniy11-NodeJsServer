@@ -39,20 +39,20 @@ router.get('/db', function (request, response) {
 })
 router.get('/getValue', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'SELECT * FROM Notes;';
+    var query =  'INSERT INTO Notes(id, title,note) VALUES (1,1,1);';
     client.query(query, (err, result)=>{
       if(!err)
-      res.json({'success':true, "message":"talbes created",'result':result});
+        res.json({'success':true, "message":"talbes created",'result':result});
     })
   })
 });
+
 router.get('/initdb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE JJ(PKID INT, title TEXT,like_count INT,comments TEXT);' +
-    'CREATE TABLE LL(id int, title TEXT, note TEXT);';
+    var query =  'CREATE TABLE Muhamad(id INT, title INT);';
     client.query(query, (err, result)=>{
-      if(err)
-      res.json({'success':true, "message":"talbes created"});
+      if(!err)
+        res.json({'success':true, "message":"talbes created"});
     })
   })
 });
