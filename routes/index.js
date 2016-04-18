@@ -57,7 +57,7 @@ router.get('/selectSnippetObject', (req, res)=>{
     var query =  'SELECT * FROM SnippetObject';
     client.query(query, (err, result)=>{
       if(!err)
-      res.json({'success':true, "message":"talbes created"});
+      res.json({'success':true, "message":"talbes created".'res':result.rows});
       else {
         res.json({'failed':true, "message":"some thing went wrong",'err':err});
       }
