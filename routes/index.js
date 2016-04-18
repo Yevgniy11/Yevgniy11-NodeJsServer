@@ -26,7 +26,31 @@ router.get('/insertSnippetObject', (req, res)=>{
   }
 });
 
+router.get('/initSnippetObjectDb', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'CREATE TABLE SnippetObject(id SERIAL PRIMARY KEY  , title VARCHAR ,likes INT ,comments VARCHAR);';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created"});
+      else {
+        res.json({'failed':true, "message":"some thing went wrong",'err':err});
+      }
+    })
+  })
+});
 
+router.get('/drop', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'DROP TABLE SnippetObject';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created"});
+      else {
+        res.json({'failed':true, "message":"some thing went wrong",'err':err});
+      }
+    })
+  })
+});
 /*
 
 */
