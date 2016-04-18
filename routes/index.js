@@ -77,7 +77,7 @@ router.get('/droptest', (req, res)=>{
 });
 router.get('/tt', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'SEKECT * FROM test;';
+    var query =  'SELECT * FROM test;';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created"});
