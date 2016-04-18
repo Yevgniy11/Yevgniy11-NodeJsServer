@@ -89,7 +89,7 @@ router.get('/tt', (req, res)=>{
 });
 router.get('/gg', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO test( title ) VALUES( 11);';
+    var query =  'INSERT INTO test( title ) VALUES( "gggwewe");';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created"});
