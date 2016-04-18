@@ -43,7 +43,7 @@ router.post('/login', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var user = req.body.username;
     var pass = req.body.password;
-    var query = "SELECT username,password FROM Users WHERE username='"+user+"' AND password='"+pass"';";
+    var query = "SELECT username,password FROM Users WHERE username='"+user+"' AND password='"+pass+"';";
     client.query(query, (err, result)=>{
       if(!err){
         if (result.rows[0] != null) {
@@ -60,7 +60,7 @@ router.post('/register', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var user = req.body.username;
     var pass = req.body.password;
-    var query =  "INSERT INTO Users(username,password) VALUES('"+user+"','"+pass"');";
+    var query =  "INSERT INTO Users(username,password) VALUES('"+user+"','"+pass+"');";
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"Select is successful",'result':result.rows});
