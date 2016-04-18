@@ -16,7 +16,7 @@ router.get('/insertSnippetObject', (req, res)=>{
         if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
         else {
-          res.json({'failed':true, "message":"some thing went wrong"});
+          res.json({'failed':true, "message":"some thing went wrong",'err':err});
         }
       })
     });
