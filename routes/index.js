@@ -63,9 +63,21 @@ router.get('/init', (req, res)=>{
     })
   })
 });
+router.get('/droptest', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'DROP TABLE test;';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created"});
+      else {
+        res.json({'failed':true, "message":"some thing went wrong",'err':err});
+      }
+    })
+  })
+});
 router.get('/gg', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO test( title ) VALUES( dd);';
+    var query =  'INSERT INTO test( title ) VALUES( 11);';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created"});
