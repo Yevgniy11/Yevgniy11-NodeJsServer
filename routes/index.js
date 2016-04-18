@@ -54,16 +54,30 @@ router.post('/login', (req, res)=>{
       else {
         res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
 );
+router.post('/login', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var user = req.body.username;
+    var pass = req.body.password;
+    var query = "SELECT username,password FROM Users WHERE username='"+user+"' AND password='"+pass+"';";
+    client.query(query, (err, result)=>{
+      if(!err){
+        if (result != null) {
+          res.json({'success':true, "message":"Select is successful"});
+        }
+        res.json({'success':false, "message":"Invalid username or password, try again."});
+      }
+      else {
+        res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
+);
 
-
-router.post('/register', (req, res)=>{
+router.post('/select', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var user = req.body.username;
     var pass = req.body.password;
     var query =  "INSERT INTO Users(username,password) VALUES('"+user+"','"+pass+"');";
     client.query(query, (err, result)=>{
       if(!err)
-      res.json({'success':true, "message":"Select is successful",'result':result.rows});
+      res.json({'success':true, "message":"Select is successful",'result':result});
       else {
         res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
 );
