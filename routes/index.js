@@ -11,197 +11,24 @@ router.get('/insertSnippetObject', (req, res)=>{
 
   if(title!=null && like_count!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-
-      var query =  'INSERT INTO SnippetObject( title , likes , comments ) VALUES(' +title+' ,'+ like_count+' ,'+ comments+' );';
-      /*
-      "pkid",
-      "name": "title",
-      "name": "like_count",
-      "name": "comments",
-      */
+      var query =  "INSERT INTO SnippetObject( title , likes , comments ) VALUES('" +title+"' ,'" +like_count+"' ,'" +comments+"'  );";
       client.query(query, (err, result)=>{
         if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
         else {
-          res.json(
-            {'failed':true,
-            "message":"some thing went wrong",
-            'err':err,
-            'req':query
-          });
+          res.json({'failed':true, "message":"some thing went wrong"});
         }
-      });
+      })
     });
-  }
-  else
+  }else
   {
     res.json({'failed':true, "message":"null values sent"});
   }
 });
 
-router.get('/initSnippetObjectDb', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE SnippetObject(id SERIAL PRIMARY KEY  , title TEXT ,likes INT ,comments TEXT);';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created"});
-      else {
-        res.json({'failed':true, "message":"some thing went wrong",'err':err});
-      }
-    })
-  })
-});
-router.get('/init', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE test(id SERIAL PRIMARY KEY  , title varchar );';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created"});
-      else {
-        res.json({'failed':true, "message":"some thing went wrong",'err':err});
-      }
-    })
-  })
-});
-router.get('/droptest', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'DROP TABLE test;';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created"});
-      else {
-        res.json({'failed':true, "message":"some thing went wrong",'err':err});
-      }
-    })
-  })
-});
-router.get('/tt', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'SELECT * FROM test;';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created","res":result.rows});
-      else {
-        res.json({'failed':true, "message":"some thing went wrong",'err':err});
-      }
-    })
-  })
-});
-router.get('/gg', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var str = 'Yes'
-    var query =  "INSERT INTO test( title ) VALUES( '"+str+"' );";
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created"});
-      else {
-        res.json({'failed':true, "message":"some thing went wrong",'err':err});
-      }
-    })
-  })
-});
-router.get('/selectKluminati', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'SELECT * FROM Kluminati;';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created",'result':result});
-      else {
-        res.json({'failed':true, "message":"some thing went wrong"});
-      }
-    })
-  })
-});
-router.get('/insertKluminatiObject', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO Kluminati(title) VALUES(2);';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created",'result':result});
-      else {
-        res.json({'failed':true, "message":"some thing went wrong"});
-      }
-    })
-  })
-});
-router.get('/selectSnippetObject', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'SELECT * FROM SnippetObject;';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created",'result':result});
-      else {
-        res.json({'failed':true, "message":"some thing went wrong"});
-      }
-    })
-  })
-});
 
+/*
 
-router.get('/drop', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'DROP TABLE SnippetObject;';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created",'result':result});
-      else {
-        res.json({'success':false, "message":"talbes created",'result':err});
-      }
-    })
-  })
-});
-router.get('/dropKlu', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'DROP TABLE Kluminati;';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created",'result':result});
-      else {
-        res.json({'success':false, "message":"talbes created",'result':err});
-      }
-    })
-  })
-});
-router.get('/initKlu', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE Kluminati(id SERIAL PRIMARY KEY , title TEXT);';
-    client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"talbes created",'result':result});
-      else {
-        res.json({'success':false, "message":"talbes created",'result':err});
-      }
-    })
-  })
-});
+*/
+
 module.exports = router;
-
-
-function dbConnect()
-{
-  //n1plcpnl0047.prod.ams1.secureserver.net
-  var mysql =  require('mysql');
-  var connection =  mysql.createConnection({
-    host : '160.153.16.35',
-    user : 'Kluminati',
-    port : '3306',
-    password : 'Yevgniy1!',
-    database : 'NodeJsServer'
-  });
-  connection.connect();
-  return connection;
-}
-
-function sendQuerry(query)
-{
-  var connection = dbConnect();
-  connection.query(query, function(err, rows, fields) {
-    if (err) throw err;
-
-    var g={};
-    g=rows[0];
-    console.log('The solution is: ', g.PKID );
-  });
-
-  connection.end();
-}
