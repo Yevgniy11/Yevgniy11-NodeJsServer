@@ -80,7 +80,7 @@ router.get('/tt', (req, res)=>{
     var query =  'SELECT * FROM test;';
     client.query(query, (err, result)=>{
       if(!err)
-      res.json({'success':true, "message":"talbes created"});
+      res.json({'success':true, "message":"talbes created",result.rows});
       else {
         res.json({'failed':true, "message":"some thing went wrong",'err':err});
       }
