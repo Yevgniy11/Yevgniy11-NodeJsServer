@@ -51,6 +51,19 @@ router.get('/drop', (req, res)=>{
     })
   })
 });
+
+router.get('/selectSnippetObject', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'SELECT * FROM SnippetObject';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created"});
+      else {
+        res.json({'failed':true, "message":"some thing went wrong",'err':err});
+      }
+    })
+  })
+});
 /*
 
 */
