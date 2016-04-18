@@ -4,14 +4,14 @@ var pg = require('pg');
 
 /* GET home page. */
 
-router.get('/insertSnippetObject', (req, res)=>{
+router.post('/insertSnippetObject', (req, res)=>{
   var title = req.query.title ;
-  var like_count = req.query.like_count;
+  var likes = req.query.likes;
   var comments = req.query.comments;
 
   if(title!=null && like_count!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-      var query =  "INSERT INTO SnippetObject( title , likes , comments ) VALUES( '"+title+"',"+like_count+",'"+comments+"');";
+      var query =  "INSERT INTO SnippetObject( title , likes , comments ) VALUES( '"+title+"',"+likes+",'"+comments+"');";
       client.query(query, (err, result)=>{
         if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
@@ -26,7 +26,7 @@ router.get('/insertSnippetObject', (req, res)=>{
   }
 });
 
-router.get('/initSnippetObjectDb', (req, res)=>{
+router.post('/initSnippetObjectDb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var query =  'CREATE TABLE SnippetObject(id SERIAL PRIMARY KEY  , title VARCHAR ,likes INT ,comments VARCHAR);';
     client.query(query, (err, result)=>{
@@ -52,7 +52,7 @@ router.get('/drop', (req, res)=>{
   })
 });
 
-router.get('/selectSnippetObject', (req, res)=>{
+router.post('/selectSnippetObject', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var query =  'SELECT * FROM SnippetObject';
     client.query(query, (err, result)=>{
