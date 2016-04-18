@@ -46,7 +46,7 @@ router.post('/login', (req, res)=>{
     var query = "SELECT username,password FROM Users WHERE username='"+user+"' AND password='"+pass+"';";
     client.query(query, (err, result)=>{
       if(!err){
-        if (result.rows[0] != null) {
+        if (result != null) {
           res.json({'success':true, "message":"Select is successful"});
         }
         res.json({'success':false, "message":"Invalid username or password, try again."});
