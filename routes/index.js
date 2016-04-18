@@ -9,7 +9,7 @@ router.post('/insertSnippetObject', (req, res)=>{
   var likes = req.body.likes;
   var comments = req.body.comments;
 
-  if(title!=null && like_count!=null && comments!=null){
+  if(title!=null && likes!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
       var query =  "INSERT INTO SnippetObject( title , likes , comments ) VALUES( '"+title+"',"+likes+",'"+comments+"');";
       client.query(query, (err, result)=>{
