@@ -1,3 +1,7 @@
+var express = require('express');
+var router = express.Router();
+var pg = require('pg');
+
 router.get('/drop', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var query =  'DROP TABLE SnippetObject;';

@@ -11,7 +11,7 @@ router.get('/insertSnippetObject', (req, res)=>{
 
   if(title!=null && like_count!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-      var query =  "INSERT INTO SnippetObject( title , likes , comments ) VALUES('" +title+"' ,'" +like_count+"' ,'" +comments+"'  );";
+      var query =  "INSERT INTO SnippetObject( title , likes , comments ) VALUES( '"+title+"',"+like_count+",'"+comments+"');";
       client.query(query, (err, result)=>{
         if(!err)
         res.json({'success':true, "message":"talbes created",'result':result});
