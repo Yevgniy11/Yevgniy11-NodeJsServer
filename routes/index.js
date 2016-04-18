@@ -53,7 +53,7 @@ router.get('/initSnippetObjectDb', (req, res)=>{
 });
 router.get('/init', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE in(id SERIAL PRIMARY KEY  , title varchar());';
+    var query =  'CREATE TABLE test(id SERIAL PRIMARY KEY  , title varchar(n));';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created"});
