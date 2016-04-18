@@ -75,6 +75,18 @@ router.get('/droptest', (req, res)=>{
     })
   })
 });
+router.get('/tt', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var query =  'SEKECT * FROM test;';
+    client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"talbes created"});
+      else {
+        res.json({'failed':true, "message":"some thing went wrong",'err':err});
+      }
+    })
+  })
+});
 router.get('/gg', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var query =  'INSERT INTO test( title ) VALUES( 11);';
