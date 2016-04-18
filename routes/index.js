@@ -5,9 +5,9 @@ var pg = require('pg');
 /* GET home page. */
 
 router.post('/insertSnippetObject', (req, res)=>{
-  var title = req.query.title ;
-  var likes = req.query.likes;
-  var comments = req.query.comments;
+  var title = req.body.title ;
+  var likes = req.body.likes;
+  var comments = req.body.comments;
 
   if(title!=null && like_count!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
