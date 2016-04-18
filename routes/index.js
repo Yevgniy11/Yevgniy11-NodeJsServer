@@ -65,7 +65,7 @@ router.get('/init', (req, res)=>{
 });
 router.get('/gg', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'INSERT INTO in( title ) VALUES( dd);';
+    var query =  'INSERT INTO test( title ) VALUES( dd);';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"talbes created"});
