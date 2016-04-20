@@ -43,8 +43,8 @@ router.post('/login', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var user = req.body.username;
     var pass = req.body.password;
-    var query = "SELECT username,password FROM Users WHERE username='"+user+"' AND password='"+pass+"';";
-    client.query(query, (err, result)=>{
+    var query = "SELECT username,password FROM Users WHERE username=$1 AND password=$2;";
+    client.query(query,[user,pass] (err, result)=>{
       if(!err){
         if (result.rowCount > 0)
         res.json({'success':"true", "message":"Select is successful"});
