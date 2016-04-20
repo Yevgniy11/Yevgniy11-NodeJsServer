@@ -60,6 +60,7 @@ router.post('/registerUser', (req, res)=>{
     var user = req.body.username;
     var pass = req.body.password;
     var email = req.body.email;
+    if(user!=""&& pass!=""&&email!=""){
     var query = "INSERT INTO Users(username,password,email) VALUES($1,$2,$3);";
     client.query(query,[user,pass,email],(err, result)=>{
       if(!err){
@@ -69,7 +70,8 @@ router.post('/registerUser', (req, res)=>{
       }
       else
         res.json({'success':"false", "message":"some thing went wrong",'error':err});
-    })})
+    })}
+  })
 });
 
 router.post('/select', (req, res)=>{
