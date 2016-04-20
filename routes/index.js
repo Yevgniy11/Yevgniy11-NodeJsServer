@@ -113,7 +113,21 @@ router.post('/login', (req, res)=>{
               })
             })
           });
+
+          router.post('/deleteUserTable', (req, res)=>{
+            pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+              var query =  'DELETE FROM Users;';
+              client.query(query, (err, result)=>{
+                if(!err)
+                res.json({'success':"true", "message":"Table Created","result":result});
+                else {
+                  res.json({'success':"false", "message":"some thing went wrong.",'err':err});
+                }
+              })
+            })
+          });
           /*
+
           router.post('/basic', (req, res)=>{
           pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
           var query =  '';
