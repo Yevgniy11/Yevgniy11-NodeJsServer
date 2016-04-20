@@ -67,6 +67,7 @@ router.post('/login', (req, res)=>{
         }})})
     //res.json({'success':"false", "message":"some thing went wrong",'error':connectionString});
   });
+
   router.post('/registerUser', (req, res)=>{
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
       var user = req.body.username;
