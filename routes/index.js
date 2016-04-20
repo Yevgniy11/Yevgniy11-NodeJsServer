@@ -43,7 +43,7 @@ router.post('/login', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var user = req.body.user;
     var pass = req.body.pass;
-    var query = "SELECT username,password FROM Users WHERE username='klu' AND password='yev';";
+    var query = 'SELECT username,password FROM Users WHERE username=$1 AND password=$2;';
     client.query(query,(err, result)=>{
       if(!err){
         if (result.rowCount > 0)
