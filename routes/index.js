@@ -61,7 +61,7 @@ router.post('/registerUser', (req, res)=>{
     var pass = req.body.password;
     var email = req.body.email;
     var query = "INSERT INTO Users(username,password,email) VALUES($1,$2,$3);";
-    client.query(query,[user],[pass],[email],(err, result)=>{
+    client.query(query,[user,pass,email],(err, result)=>{
       if(!err){
         if (result.rowCount > 0)
           res.json({'success':"true", "message":"Select is successful"});
