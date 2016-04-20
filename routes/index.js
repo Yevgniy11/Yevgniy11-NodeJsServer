@@ -55,6 +55,18 @@ router.post('/login', (req, res)=>{
     })})
   });
 
+  router.get('/key',(req,res)=>{
+    var connectionString = "postgres://agcyhphanaohru:Se2XX6hID2-23PsP_f86-k0dFW@ec2-54-163-254-231.compute-1.amazonaws.com:5432:/dfd216d1sm2ejf";
+    pg.connect(connectionString, (err, client, done)=>{
+      var query =  "SELECT username,password FROM Users ;";
+      client.query(query, (err, result)=>{
+        if(!err)
+        res.json({'success':"true", "message":"Select is successful",'result':result});
+        else {
+          res.json({'success':"false", "message":"some thing went wrong",'error':err});
+        }})})
+    //res.json({'success':"false", "message":"some thing went wrong",'error':connectionString});
+  });
   router.post('/registerUser', (req, res)=>{
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
       var user = req.body.username;
