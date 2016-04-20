@@ -86,7 +86,7 @@ router.post('/select', (req, res)=>{
 
 router.post('/initUsers', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE Users(id SERIAL PRIMARY KEY  , password VARCHAR ,username VARCHAR);';
+    var query =  'CREATE TABLE Users(id SERIAL PRIMARY KEY  , password VARCHAR ,username VARCHAR,email VARCHAR);';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':"true", "message":"Table Created","result":result});
