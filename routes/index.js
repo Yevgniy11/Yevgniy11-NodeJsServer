@@ -47,8 +47,9 @@ router.post('/login', (req, res)=>{
     client.query(query,[user,pass], (err, result)=>{
       if(!err){
         if (result.rowCount > 0)
-        res.json({'success':"true", "message":"Select is successful"});
-        res.json({'success':"false", "message":"Invalid username or password, try again."});
+          res.json({'success':"true", "message":"Select is successful"});
+        else
+          res.json({'success':"false", "message":"Invalid username or password, try again."});
       }
       else
       res.json({'success':"false", "message":"some thing went wrong",'error':err});
