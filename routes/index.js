@@ -3,6 +3,9 @@ var router = express.Router();
 var pg = require('pg');
 
 /* GET home page. */
+router.get('/', function(req, res, next) {
+  res.send('<h1>Node Js Server Runing</h1>');
+});
 
 router.post('/insertSnippetObject', (req, res)=>{
   var title = req.body.title ;
@@ -138,8 +141,21 @@ router.post('/login', (req, res)=>{
               })
             })
           });
-          /*
 
+          router.post('/getFeed', (req, res)=>{
+            pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+              var query =  'SELECT * FROM SnippetObject;';
+              client.query(query, (err, result)=>{
+                if(!err)
+                res.json({'success':"true", "message":"Table Created","result":result});
+                else {
+                  res.json({'success':"false", "message":"some thing went wrong.",'err':err});
+                }
+              })
+            })
+          });
+          /*
+getFeed
           router.post('/basic', (req, res)=>{
           pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
           var query =  '';
