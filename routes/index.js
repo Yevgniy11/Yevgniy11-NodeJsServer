@@ -52,14 +52,15 @@ router.post('/incrementLikes', (req, res)=>{
     var query =  'SELECT likes FROM SnippetObject WHERE id=$1';
     client.query(query,[objectId], (err, result)=>{
       if(!err){
-        //tempLike = result.rows[0].likes + 1;
-        res.json({'success':"true", "message":"Select is successful",'result':result.rows[0].likes});
+        tempLike = result.rows[0].likes ;
+        tempLike+=1;
+        //res.json({'success':"true", "message":"Select is successful",'result':result.rows[0].likes});
       }
       else {
         res.json({'success':"false", "message":"some thing went wrong,when getting the temp like count",'error':err});
       }
-    })/*
-    var insertQuery ="INSERT INTO SnippetObject(likes) VALUES($1) WHERE likes=$2;";
+    })
+    var insertQuery ="INSERT INTO SnippetObject(likes) VALUES($1) WHERE id=$2;";
     client.query(insertQuery,[tempLike,objectId], (err, result)=>{
       if(!err){
         res.json({'success':"true", "message":"Select is successful",'result':result.rows});
@@ -67,7 +68,7 @@ router.post('/incrementLikes', (req, res)=>{
       else {
         res.json({'success':"false", "message":"some thing went wrong,when incrementing the like count",'error':err});
       }
-    })*/
+    })
   })
 });
 router.post('/login', (req, res)=>{
