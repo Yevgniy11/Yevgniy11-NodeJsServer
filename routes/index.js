@@ -13,7 +13,7 @@ router.post('/insertSnippetObject', (req, res)=>{
   var comments = req.body.comments;
   var username = req.body.username;
   var input = req.body.input;
-  
+
   if(title!=null && likes!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
       var query =  "INSERT INTO SnippetObject( title,likes,comments,username,input) VALUES($1,$2,$3,$4,$5);";
@@ -45,6 +45,31 @@ router.post('/selectSnippetObject', (req, res)=>{
   })
 });
 
+router.post('/incrementLikes', (req, res)=>{
+  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+    var objectId = req.body.id;
+    var tempLike = 0;
+    var query =  'SELECT likes FROM SnippetObject WHERE id=$1';
+    client.query(query,[id], (err, result)=>{
+      if(!err){
+        tempLike = result.rows[0].likes + 1;
+        //res.json({'success':"true", "message":"Select is successful",'result':result.rows});
+      }
+      else {
+        res.json({'success':"false", "message":"some thing went wrong,when getting the temp like count",'error':err});
+      }
+    })
+    var insertQuery ="INSERT INTO SnippetObject(likes) VALUES($1) WHERE likes=$2;";
+    client.query(insertQuery,[tempLike,objectId], (err, result)=>{
+      if(!err){
+        res.json({'success':"true", "message":"Select is successful",'result':result.rows});
+      }
+      else {
+        res.json({'success':"false", "message":"some thing went wrong,when incrementing the like count",'error':err});
+      }
+    })
+  })
+});
 router.post('/login', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var user = req.body.user;
