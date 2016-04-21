@@ -30,7 +30,7 @@ router.get('/drop', (req, res)=>{
   })
 });
 
-router.get('/drop', (req, res)=>{
+router.get('/', (req, res)=>{
       res.json({'success':true, "message":"talbes created",'result':result});
 });
 
