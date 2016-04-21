@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var pg = require('pg');
 
+/* GET home page. */
+
 router.post('/initSnippetObjectDb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var query =  'CREATE TABLE SnippetObject(id SERIAL PRIMARY KEY  , title VARCHAR ,likes INT ,comments VARCHAR);';
@@ -26,6 +28,10 @@ router.get('/drop', (req, res)=>{
       }
     })
   })
+});
+
+router.get('/drop', (req, res)=>{
+      res.json({'success':true, "message":"talbes created",'result':result});
 });
 
 module.exports = router;
