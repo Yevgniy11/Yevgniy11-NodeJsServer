@@ -3,6 +3,9 @@ var router = express.Router();
 var pg = require('pg');
 
 /* GET home page. */
+router.get('/', function(req, res, next) {
+  res.send('<h1>Node Js Server Runing</h1>');
+});
 
 router.post('/initSnippetObjectDb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
@@ -30,8 +33,6 @@ router.get('/drop', (req, res)=>{
   })
 });
 
-router.get('/', (req, res)=>{
-      res.json({'success':true, "message":"talbes created",'result':result});
-});
+
 
 module.exports = router;
