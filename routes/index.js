@@ -11,11 +11,14 @@ router.post('/insertSnippetObject', (req, res)=>{
   var title = req.body.title ;
   var likes = req.body.likes;
   var comments = req.body.comments;
-
+  var username = req.body.username;
+  var input = req.body.input;
+  
   if(title!=null && likes!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-      var query =  "INSERT INTO SnippetObject( title , likes , comments ) VALUES( '"+title+"',"+likes+",'"+comments+"');";
-      client.query(query, (err, result)=>{
+      var query =  "INSERT INTO SnippetObject( title,likes,comments,username,input) VALUES($1,$2,$3,$4,$5);";
+
+      client.query(query,[title,likes,comments,username,input],(err, result)=>{
         if(!err)
         res.json({'success':"true", "message":"Object inserted to the db successfully",'result':result});
         else {
