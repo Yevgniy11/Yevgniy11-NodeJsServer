@@ -60,10 +60,10 @@ router.post('/incrementLikes', (req, res)=>{
         res.json({'success':"false", "message":"some thing went wrong,when getting the temp like count",'error':err});
       }
     })
-    var insertQuery ="INSERT INTO SnippetObject(likes) VALUES($1) WHERE id=$2;";
+    var insertQuery ="UPDATE SnippetObject SET likes=$1 WHERE id=$2;";
     client.query(insertQuery,[tempLike,objectId], (err, result)=>{
       if(!err){
-        res.json({'success':"true", "message":"Select is successful",'result':result.rows});
+        res.json({'success':"true", "message":"Insert is successful",'result':result});
       }
       else {
         res.json({'success':"false", "message":"some thing went wrong,when incrementing the like count",'error':err});
