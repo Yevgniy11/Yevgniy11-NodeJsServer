@@ -53,7 +53,7 @@ router.post('/incrementLikes', (req, res)=>{
     client.query(query,[objectId], (err, result)=>{
       if(!err){
         //tempLike = result.rows[0].likes + 1;
-        res.json({'success':"true", "message":"Select is successful",'result':result.rows});
+        res.json({'success':"true", "message":"Select is successful",'result':result.rows[0].likes});
       }
       else {
         res.json({'success':"false", "message":"some thing went wrong,when getting the temp like count",'error':err});
