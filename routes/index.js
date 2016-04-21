@@ -54,13 +54,14 @@ router.post('/incrementLikes', (req, res)=>{
       if(!err){
         tempLike = result.rows[0].likes ;
         tempLike+=1;
-        res.json({'dd':tempLike});
+
         //res.json({'success':"true", "message":"Select is successful",'result':result.rows[0].likes});
       }
       else {
         res.json({'success':"false", "message":"some thing went wrong,when getting the temp like count",'error':err});
       }
     })
+    res.json({'dd':tempLike});
     var insertQuery ="UPDATE SnippetObject SET likes=$1 WHERE id=$2;";
     client.query(insertQuery,[tempLike,objectId], (err, result)=>{
       if(!err){
