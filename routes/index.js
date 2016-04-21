@@ -52,8 +52,8 @@ router.post('/incrementLikes', (req, res)=>{
     var query =  'SELECT likes FROM SnippetObject WHERE id=$1';
     client.query(query,[objectId], (err, result)=>{
       if(!err){
-        tempLike = result.rows[0].likes + 1;
-        //res.json({'success':"true", "message":"Select is successful",'result':result.rows});
+        //tempLike = result.rows[0].likes + 1;
+        res.json({'success':"true", "message":"Select is successful",'result':result.rows[0]});
       }
       else {
         res.json({'success':"false", "message":"some thing went wrong,when getting the temp like count",'error':err});
