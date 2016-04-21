@@ -48,12 +48,12 @@ router.post('/selectSnippetObject', (req, res)=>{
 router.post('/incrementLikes', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
     var objectId = req.body.objectId;
-    var tempLike = 0;
+     
     var query =  'SELECT likes FROM SnippetObject WHERE id=$1';
     client.query(query,[objectId], (err, result)=>{
       if(!err){
         tempLike = result.rows[0].likes ;
-        tempLike+=1;
+        var tempLike+=1;
 
         //res.json({'success':"true", "message":"Select is successful",'result':result.rows[0].likes});
       }
