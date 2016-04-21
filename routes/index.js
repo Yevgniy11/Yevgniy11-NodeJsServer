@@ -54,6 +54,7 @@ router.post('/incrementLikes', (req, res)=>{
       if(!err){
         tempLike = result.rows[0].likes ;
         tempLike+=1;
+        res.json({'dd':tempLike});
         //res.json({'success':"true", "message":"Select is successful",'result':result.rows[0].likes});
       }
       else {
