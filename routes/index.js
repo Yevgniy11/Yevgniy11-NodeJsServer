@@ -58,7 +58,7 @@ router.post('/incrementLikes', (req, res)=>{
       else {
         res.json({'success':"false", "message":"some thing went wrong,when getting the temp like count",'error':err});
       }
-    })
+    })/*
     var insertQuery ="INSERT INTO SnippetObject(likes) VALUES($1) WHERE likes=$2;";
     client.query(insertQuery,[tempLike,objectId], (err, result)=>{
       if(!err){
@@ -67,7 +67,7 @@ router.post('/incrementLikes', (req, res)=>{
       else {
         res.json({'success':"false", "message":"some thing went wrong,when incrementing the like count",'error':err});
       }
-    })
+    })*/
   })
 });
 router.post('/login', (req, res)=>{
