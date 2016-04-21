@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/initSnippetObjectDb', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-    var query =  'CREATE TABLE SnippetObject(id SERIAL PRIMARY KEY  , title VARCHAR ,likes INT ,comments VARCHAR,user VARCHAR,input VARCHAR);';
+    var query =  'CREATE TABLE SnippetObject(id SERIAL PRIMARY KEY,title VARCHAR ,likes INT ,comments VARCHAR,username VARCHAR,input VARCHAR);';
     client.query(query, (err, result)=>{
       if(!err)
       res.json({'success':true, "message":"Talbes Created","result":result});
