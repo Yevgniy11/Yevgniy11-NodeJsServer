@@ -110,7 +110,7 @@ router.post('/login', (req, res)=>{
           var email = req.body.email;
           if(user!=""&& pass!=""&&email!=""){
             var userCheckResult = userCheck(user,email);
-            if(userCheckResult.success = 'true'){
+            if(userCheckResult.success == 'true'){
               var query = "INSERT INTO Users(username,password,email) VALUES($1,$2,$3);";
               client.query(query,[user,pass,email],(err, result)=>{
                 if(!err){
