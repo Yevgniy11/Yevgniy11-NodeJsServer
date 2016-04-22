@@ -109,7 +109,7 @@ router.post('/login', (req, res)=>{
           var pass = req.body.password;
           var email = req.body.email;
           if(user!=""&& pass!=""&&email!=""){
-            var userCheckResult = userCheck(username,email);
+            var userCheckResult = userCheck(user,email);
             if(userCheckResult.success = 'true'){
               var query = "INSERT INTO Users(username,password,email) VALUES($1,$2,$3);";
               client.query(query,[user,pass,email],(err, result)=>{
@@ -121,10 +121,8 @@ router.post('/login', (req, res)=>{
                 res.json({'success':"false", "message":"some thing went wrong",'error':err});
               }
             )
-          }else {
-            
-          }
-
+          }else
+            res.json({'success':"false", "message":userCheckResult.message});
           }else
             res.json({'success':"false", "message":"Parameters 'email,usermname,password' cant be empty."});
       })
