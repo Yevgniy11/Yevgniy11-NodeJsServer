@@ -115,7 +115,7 @@ router.post('/login', (req, res)=>{
                 client.query(query,[user,pass,email],(err, result)=>{
                   if(!err){
                     if (result.rowCount > 0)
-                    res.json({'success':"true", "message":"Select is successful"});
+                    res.json({'success':"true", "message":"User Registerd"});
                     res.json({'success':"false", "message":"Invalid username or password, try again."});
                   }else
                   res.json({'success':"false", "message":"some thing went wrong",'error':err});
@@ -130,8 +130,7 @@ router.post('/login', (req, res)=>{
       })
     });
 
-    function userCheck(username,email,fun)
-    {
+    function userCheck(username,email,fun){
       var query = "SELECT * FROM Users WHERE username=$1 OR email=$2;";
       pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
         client.query(query,[username,email],(err, result)=>{
@@ -139,87 +138,89 @@ router.post('/login', (req, res)=>{
             if (result.rowCount == 0){
               //res.json({'success':"true", "message":"Select is successful",'result':result});
               fun({'success':"true"});
-          }
-          else {
-            fun({'success':"false", "message":"Username or email is taken",'err':err});
-          }
+            }
+            else {
+              fun({'success':"false", "message":"Username or email is taken",'err':err});
+            }
           }
           else {
             fun({'success':"false", "message":"Query failed",'err':err});
           }
         })
       })
-    }
+    };
     router.post('/select', (req, res)=>{
       pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-        var query =  "SELECT username,password FROM Users ;";
+        var query =  "SELECT username,password,email FROM Users ;";
         client.query(query, (err, result)=>{
           if(!err)
-          res.json({'success':"true", "message":"Select is successful",'result':result});
+            res.json({'success':"true", "message":"Select is successful",'result':result});
           else {
-            res.json({'success':"false", "message":"some thing went wrong",'error':err});}})})}
-          );
+            res.json({'success':"false", "message":"some thing went wrong",'error':err});
+          }})
+        })
+      });
 
-          router.post('/initUsers', (req, res)=>{
-            pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-              var query =  'CREATE TABLE Users(id SERIAL PRIMARY KEY  , password VARCHAR ,username VARCHAR,email VARCHAR);';
-              client.query(query, (err, result)=>{
-                if(!err)
-                res.json({'success':"true", "message":"Table Created","result":result});
-                else {
-                  res.json({'success':"false", "message":"some thing went wrong.",'err':err});
-                }
-              })
-            })
-          });
-          router.post('/dropUsers', (req, res)=>{
-            pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-              var query =  'DROP TABLE Users;';
-              client.query(query, (err, result)=>{
-                if(!err)
-                res.json({'success':"true", "message":"Table droped","result":result});
-                else {
-                  res.json({'success':"false", "message":"some thing went wrong.",'err':err});
-                }
-              })
-            })
-          });
-
-          router.post('/deleteUserTable', (req, res)=>{
-            pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-              var query =  'DELETE FROM Users;';
-              client.query(query, (err, result)=>{
-                if(!err)
-                res.json({'success':"true", "message":"Table Created","result":result});
-                else {
-                  res.json({'success':"false", "message":"some thing went wrong.",'err':err});
-                }
-              })
-            })
-          });
-
-          router.post('/getFeed', (req, res)=>{
-            pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-              var query =  'SELECT * FROM SnippetObject;';
-              client.query(query, (err, result)=>{
-                if(!err)
-                res.json({'success':"true", "message":"Table Created","result":result});
-                else {
-                  res.json({'success':"false", "message":"some thing went wrong.",'err':err});
-                }
-              })
-            })
-          });
-          /*
-          getFeed
-          router.post('/basic', (req, res)=>{
-          pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-          var query =  '';
+      router.post('/initUsers', (req, res)=>{
+        pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+          var query =  'CREATE TABLE Users(id SERIAL PRIMARY KEY  , password VARCHAR ,username VARCHAR,email VARCHAR);';
           client.query(query, (err, result)=>{
-          if(!err)
-          res.json({'success':true, "message":"Select is successful",'result':result.rows});
-          else {
-          res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
-        );
-        */
-        module.exports = router;
+            if(!err)
+            res.json({'success':"true", "message":"Table Created","result":result});
+            else {
+              res.json({'success':"false", "message":"some thing went wrong.",'err':err});
+            }
+          })
+        })
+      });
+      router.post('/dropUsers', (req, res)=>{
+        pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+          var query =  'DROP TABLE Users;';
+          client.query(query, (err, result)=>{
+            if(!err)
+            res.json({'success':"true", "message":"Table droped","result":result});
+            else {
+              res.json({'success':"false", "message":"some thing went wrong.",'err':err});
+            }
+          })
+        })
+      });
+
+      router.post('/deleteUserTable', (req, res)=>{
+        pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+          var query =  'DELETE FROM Users;';
+          client.query(query, (err, result)=>{
+            if(!err)
+            res.json({'success':"true", "message":"Table Created","result":result});
+            else {
+              res.json({'success':"false", "message":"some thing went wrong.",'err':err});
+            }
+          })
+        })
+      });
+
+      router.post('/getFeed', (req, res)=>{
+        pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+          var query =  'SELECT * FROM SnippetObject;';
+          client.query(query, (err, result)=>{
+            if(!err)
+            res.json({'success':"true", "message":"Table Created","result":result});
+            else {
+              res.json({'success':"false", "message":"some thing went wrong.",'err':err});
+            }
+          })
+        })
+      });
+      /*
+      getFeed
+      router.post('/basic', (req, res)=>{
+      pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+      var query =  '';
+      client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"Select is successful",'result':result.rows});
+      else {
+      res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
+    );
+    */
+    module.exports = router;
