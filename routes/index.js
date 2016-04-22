@@ -108,7 +108,7 @@ router.post('/login', (req, res)=>{
           var user = req.body.username;
           var pass = req.body.password;
           var email = req.body.email;
-          if(user!=""&& pass!=""&&email!=""){
+          if(user!=""&&user!=null&& pass!=""&&pass!=null&&email!=""&&email!=null){
             var userCheckResult = userCheck(user,email,(result)=>{
               if(result.success == 'true'){
                 var query = "INSERT INTO Users(username,password,email) VALUES($1,$2,$3);";
