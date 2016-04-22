@@ -109,8 +109,8 @@ router.post('/login', (req, res)=>{
           var pass = req.body.password;
           var email = req.body.email;
           if(user!=""&& pass!=""&&email!=""){
-            var userCheckResult = userCheck(user,email,(res)=>{
-              if(res.success == 'true'){
+            var userCheckResult = userCheck(user,email,(result)=>{
+              if(result.success == 'true'){
                 var query = "INSERT INTO Users(username,password,email) VALUES($1,$2,$3);";
                 client.query(query,[user,pass,email],(err, result)=>{
                   if(!err){
@@ -122,7 +122,7 @@ router.post('/login', (req, res)=>{
                 }
               )
             }else
-            res.json({'success':"false", "message":res.message});
+            res.json({'success':"false", "message":result.message});
           });
 
         }else
