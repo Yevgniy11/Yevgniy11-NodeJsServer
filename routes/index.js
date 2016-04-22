@@ -122,9 +122,9 @@ router.post('/login', (req, res)=>{
               }
             )
           }else
-            res.json({'success':"false", "message":userCheckResult.message});
-          }else
-            res.json({'success':"false", "message":"Parameters 'email,usermname,password' cant be empty."});
+          res.json({'success':"false", "message":userCheckResult.message});
+        }else
+        res.json({'success':"false", "message":"Parameters 'email,usermname,password' cant be empty."});
       })
     });
 
@@ -134,10 +134,11 @@ router.post('/login', (req, res)=>{
       pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
         var query =  'DELETE FROM Users;';
         client.query(query,[username,email],(err, result)=>{
-          if(!err)
-          res.json({'success':"true"});
+          if(!err){
+            return json({'success':"true"});
+          }
           else {
-            res.json({'success':"false", "message":"Username or email is taken",'err':err});
+            return json({'success':"false", "message":"Username or email is taken",'err':err});
           }
         })
       })
