@@ -137,10 +137,10 @@ router.post('/login', (req, res)=>{
         var query =  'DELETE FROM Users;';
         client.query(query,[username,email],(err, result)=>{
           if(!err){
-            fun(json({'success':"true"}));
+            fun({'success':"true"});
           }
           else {
-            fun(json({'success':"false", "message":"Username or email is taken",'err':err}));
+            fun({'success':"false", "message":"Username or email is taken",'err':err});
           }
         })
       })
