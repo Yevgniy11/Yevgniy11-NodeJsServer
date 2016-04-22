@@ -134,13 +134,18 @@ router.post('/login', (req, res)=>{
     {
       var query = "SELECT * FROM Users WHERE username=$1 OR email=$2;";
       pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-        var query =  'DELETE FROM Users;';
         client.query(query,[username,email],(err, result)=>{
           if(!err){
-            fun({'success':"true"});
+            if (result.rowCount == 0){
+              //res.json({'success':"true", "message":"Select is successful",'result':result});
+              fun({'success':"true"});
           }
           else {
             fun({'success':"false", "message":"Username or email is taken",'err':err});
+          }
+          }
+          else {
+            fun({'success':"false", "message":"Query failed",'err':err});
           }
         })
       })
