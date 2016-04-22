@@ -81,12 +81,12 @@ router.post('/login', (req, res)=>{
     client.query(query,[user,pass],(err, result)=>{
       if(!err){
         if (result.rowCount > 0)
-          res.json({'success':"true", "message":"Select is successful",'result':result});
+        res.json({'success':"true", "message":"Select is successful",'result':result});
         else
-          res.json({'success':"false", "message":"Invalid username or password, try again.",'error':result});
+        res.json({'success':"false", "message":"Invalid username or password, try again.",'error':result});
       }
       else
-        res.json({'success':"false", "message":"some thing went wrong",'error':err});
+      res.json({'success':"false", "message":"some thing went wrong",'error':err});
     })})
   });
 
@@ -100,31 +100,50 @@ router.post('/login', (req, res)=>{
         else {
           res.json({'success':"false", "message":"some thing went wrong",'error':err});
         }})})
-    //res.json({'success':"false", "message":"some thing went wrong",'error':connectionString});
-  });
+        //res.json({'success':"false", "message":"some thing went wrong",'error':connectionString});
+      });
 
-  router.post('/registerUser', (req, res)=>{
-    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-      var user = req.body.username;
-      var pass = req.body.password;
-      var email = req.body.email;
-      if(user!=""&& pass!=""&&email!=""){
-        var query = "INSERT INTO Users(username,password,email) VALUES($1,$2,$3);";
-        client.query(query,[user,pass,email],(err, result)=>{
-          if(!err){
-            if (result.rowCount > 0)
-            res.json({'success':"true", "message":"Select is successful"});
-            res.json({'success':"false", "message":"Invalid username or password, try again."});
+      router.post('/registerUser', (req, res)=>{
+        pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+          var user = req.body.username;
+          var pass = req.body.password;
+          var email = req.body.email;
+          if(user!=""&& pass!=""&&email!=""){
+            var userCheckResult = userCheck(username,email);
+            if(userCheckResult.success = 'true'){
+              var query = "INSERT INTO Users(username,password,email) VALUES($1,$2,$3);";
+              client.query(query,[user,pass,email],(err, result)=>{
+                if(!err){
+                  if (result.rowCount > 0)
+                  res.json({'success':"true", "message":"Select is successful"});
+                  res.json({'success':"false", "message":"Invalid username or password, try again."});
+                }else
+                res.json({'success':"false", "message":"some thing went wrong",'error':err});
+              }
+            )
+          }else {
+            
           }
-          else
-          res.json({'success':"false", "message":"some thing went wrong",'error':err});
-        })}
-        else {
-          res.json({'success':"false", "message":"Parameters 'email,usermname,password' cant be empty."});
-        }
+
+          }else
+            res.json({'success':"false", "message":"Parameters 'email,usermname,password' cant be empty."});
       })
     });
 
+    function userCheck(username,email)
+    {
+      var query = "SELECT * FROM Users WHERE username=$1 OR email=$2;";
+      pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+        var query =  'DELETE FROM Users;';
+        client.query(query,[username,email],(err, result)=>{
+          if(!err)
+          res.json({'success':"true"});
+          else {
+            res.json({'success':"false", "message":"Username or email is taken",'err':err});
+          }
+        })
+      })
+    }
     router.post('/select', (req, res)=>{
       pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
         var query =  "SELECT username,password FROM Users ;";
@@ -186,7 +205,7 @@ router.post('/login', (req, res)=>{
             })
           });
           /*
-getFeed
+          getFeed
           router.post('/basic', (req, res)=>{
           pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
           var query =  '';
