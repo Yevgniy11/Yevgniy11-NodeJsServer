@@ -107,10 +107,8 @@ router.post('/upload', function(req, res) {
             fs.writeFile(new_path, data, function(err) {
                 fs.unlink(old_path, function(err) {
                     if (err) {
-                        res.status(500);
                         res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
                     } else {
-                        res.status(200);
                         res.json({'success': true,'path':new_path});
                     }
                 });
