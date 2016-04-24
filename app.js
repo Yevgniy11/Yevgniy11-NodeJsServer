@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var uploads = require('./uploads/');
+var uploads = require('./uploads');
 //var tmp = require('./tmp');
 //var snippetdbutils = require('./routes/snippetdbutils');
 
