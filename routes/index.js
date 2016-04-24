@@ -101,8 +101,8 @@ router.post('/upload', function(req, res) {
             index = old_path.lastIndexOf('/') + 1,
             file_name = old_path.substr(index),
             new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
-        if(err)
-          res.json({'err':err});
+
+          res.json({'success': false,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
         fs.readFile(old_path, function(err, data) {
             fs.writeFile(new_path, data, function(err) {
                 fs.unlink(old_path, function(err) {
