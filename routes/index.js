@@ -91,6 +91,7 @@ router.post('/api/upload', function(req, res){
   result.file = file;
   result.user = user;
   result.fileSize = fsize;
+  result.new_path = new_path;
   //res.json(result)
 
   //the new addwd version
