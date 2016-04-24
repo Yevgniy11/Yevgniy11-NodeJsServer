@@ -106,7 +106,7 @@ router.post('/api/upload', function(req, res){
           });
       });
   });
-  res.json(result)
+  //res.json(result)
 });
 
 router.post('/upload', function(req, res) {
