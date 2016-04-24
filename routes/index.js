@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var pg = require('pg');
+var formidable = require('express-formidable');
+var formidableMiddleware = formidable.parse({keepExtensions:true});
+router.use(formidableMiddleware);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -72,6 +75,18 @@ router.post('/incrementLikes', (req, res)=>{
     //res.json({'dd':tempLike});
 
   })
+});
+
+router.post('/api/upload', function(req, res){
+  var user = req.body.user;
+  var file = req.body.fileUpload;
+  var ftype = file.type;
+  var fsize = file.size;
+  var result = {}
+  result.file = file;
+  result.user = user;
+  result.fileSize = fsize;
+  res.json(result)
 });
 router.post('/login', (req, res)=>{
   pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
