@@ -101,7 +101,8 @@ router.post('/upload', function(req, res) {
             index = old_path.lastIndexOf('/') + 1,
             file_name = old_path.substr(index),
             new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
-
+        if(err)
+          res.json({'err':err});
         fs.readFile(old_path, function(err, data) {
             fs.writeFile(new_path, data, function(err) {
                 fs.unlink(old_path, function(err) {
@@ -110,7 +111,7 @@ router.post('/upload', function(req, res) {
                         res.json({'success': false});
                     } else {
                         res.status(200);
-                        res.json({'success': true});
+                        res.json({'success': true,'path':new_path});
                     }
                 });
             });
