@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var uploads = require('./uploads');
+//var uploads = require('./uploads');
 //var tmp = require('./tmp');
 //var snippetdbutils = require('./routes/snippetdbutils');
 
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('./uploads',uploads);
+//app.use('./uploads',uploads);
 //app.use('/tmp', tmp);
 //app.use('/snippetdbutils', snippetdbutils);
 
