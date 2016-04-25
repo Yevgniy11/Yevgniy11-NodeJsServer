@@ -21,7 +21,7 @@ router.post('/insertSnippetObject', (req, res)=>{
 
   if(title!=null && likes!=null && comments!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-      var query =  "INSERT INTO SnippetObject( title,likes,comments,username) VALUES($1,$2,$3,$4);";
+      var query =  "INSERT INTO SnippetObject( title,likes,comments,username) VALUES($1,$2,'[]',$4);";
 
       client.query(query,[title,likes,comments,username],(err, result)=>{
         if(!err)
