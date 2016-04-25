@@ -96,43 +96,43 @@ router.post('/api/upload', function(req, res){
 
   //the new addwd version
   fs.readFile(old_path, function(err, data) {
-      fs.writeFile(new_path, data, function(err) {
-          fs.unlink(old_path, function(err) {
-              if (err) {
-                  res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
-              } else {
-                  res.json({'success': true,'path':new_path});
-              }
-          });
+    fs.writeFile(new_path, data, function(err) {
+      fs.unlink(old_path, function(err) {
+        if (err) {
+          res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
+        } else {
+          res.json({'success': true,'path':new_path});
+        }
       });
+    });
   });
   //res.json(result)
 });
 
 router.post('/upload', function(req, res) {
-    var form = new formidable.IncomingForm();
-    form.parse(req, function(err, fields, files) {
-        // `file` is the name of the <input> field of type `file`
-        var old_path = files.fileUpload.path,
-            file_size = files.fileUpload.size,
-            file_ext = files.fileUpload.name.split('.').pop(),
-            index = old_path.lastIndexOf('/') + 1,
-            file_name = old_path.substr(index),
-            new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
+  var form = new formidable.IncomingForm();
+  form.parse(req, function(err, fields, files) {
+    // `file` is the name of the <input> field of type `file`
+    var old_path = files.fileUpload.path,
+    file_size = files.fileUpload.size,
+    file_ext = files.fileUpload.name.split('.').pop(),
+    index = old_path.lastIndexOf('/') + 1,
+    file_name = old_path.substr(index),
+    new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
 
-          res.json({'success': false,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
-        fs.readFile(old_path, function(err, data) {
-            fs.writeFile(new_path, data, function(err) {
-                fs.unlink(old_path, function(err) {
-                    if (err) {
-                        res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
-                    } else {
-                        res.json({'success': true,'path':new_path});
-                    }
-                });
-            });
+    res.json({'success': false,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
+    fs.readFile(old_path, function(err, data) {
+      fs.writeFile(new_path, data, function(err) {
+        fs.unlink(old_path, function(err) {
+          if (err) {
+            res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
+          } else {
+            res.json({'success': true,'path':new_path});
+          }
         });
+      });
     });
+  });
 });
 
 router.post('/login', (req, res)=>{
@@ -260,6 +260,30 @@ router.post('/select', (req, res)=>{
       })
     })
   });
+
+  router.post('/updateComments', (req, res)=>{
+    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+      var query =  "SELECT username,password,email FROM Users ;";
+      client.query(query, (err, result)=>{
+        if(!err)
+        res.json({'success':"true", "message":"Select is successful",'result':result});
+        else {
+          res.json({'success':"false", "message":"some thing went wrong",'error':err});
+        }})
+      })
+    });
+
+    router.post('/fix', (req, res)=>{
+      pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+        var query =  "UPDATE SnippetObject SET comments = '[]' ;";
+        client.query(query, (err, result)=>{
+          if(!err)
+          res.json({'success':"true", "message":"fix is successful",'result':result});
+          else {
+            res.json({'success':"false", "message":"some thing went wrong",'error':err});
+          }})
+        })
+      });
   /*
   getFeed
   router.post('/basic', (req, res)=>{
