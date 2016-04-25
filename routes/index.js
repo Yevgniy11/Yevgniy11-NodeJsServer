@@ -276,6 +276,7 @@ router.post('/select', (req, res)=>{
 
           com = com.push(comment);
           var newCommentValue = JSON.stringify(com);
+        res.json({'success':newCommentValue});
           var updateQuery = "UPDATE SnippetObject SET comments =$1 WHERE id=$2 ;"
           client.query(updateQuery,[newCommentValue,id], (err, result)=>{
             if(!err){
