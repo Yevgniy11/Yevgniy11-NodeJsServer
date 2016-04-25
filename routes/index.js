@@ -273,7 +273,7 @@ router.post('/select', (req, res)=>{
           //res.json({'com':result.rows[0]});
           var com = JSON.parse(result.rows[0].comments );
           //res.json({'success':"true",'result':JSON.parse(com)});
-          res.json({'success':com});
+          res.json({'success':com,'rr':JSON.parse(comment)});
           com = com.push(JSON.parse(comment));
           var newCommentValue = JSON.stringify(com);
 
