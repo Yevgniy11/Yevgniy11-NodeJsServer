@@ -270,7 +270,7 @@ router.post('/select', (req, res)=>{
       var query =  "SELECT comments FROM SnippetObject WHERE id=$1 ;";
       client.query(query,[id] ,(err, result)=>{
         if(!err){
-          res.json({'com':result.rows[0].comments});
+          res.json({'com':result.rows[0]});
           var com = JSON.parse(result.rows[0].comments );
           //res.json({'success':"true",'result':JSON.parse(com)});
 
