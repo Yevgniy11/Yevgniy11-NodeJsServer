@@ -262,13 +262,28 @@ router.post('/select', (req, res)=>{
   });
 
   router.post('/updateComments', (req, res)=>{
+
+    var id = req.body.id;
+    var comment = req.body.comment;
+
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-      var query =  "SELECT username,password,email FROM Users ;";
-      client.query(query, (err, result)=>{
-        if(!err)
-        res.json({'success':"true", "message":"Select is successful",'result':result});
+      var query =  "SELECT comments FROM SnippetObject WHERE id=$1 ;";
+      client.query(query,[id] ,(err, result)=>{
+        if(!err){
+          var com = result.rows[0].comments ;
+          var newCommentValue = com.push(comment);
+          var updateQuery = "UPDATE SnippetObject SET comments =$2 WHERE id=$1 ;"
+          client.query(updateQuery,[id,newCommentValue], (err, result)=>{
+            if(!err){
+              res.json({'success':"true", "message":"Update is successful",'result':result});
+            }
+            else {
+              res.json({'success':"false", "message":"failed to save new comment",'error':err});
+            }
+          })
+        }
         else {
-          res.json({'success':"false", "message":"some thing went wrong",'error':err});
+          res.json({'success':"false", "message":"cant get the original comments",'error':err});
         }})
       })
     });
@@ -284,16 +299,16 @@ router.post('/select', (req, res)=>{
           }})
         })
       });
-  /*
-  getFeed
-  router.post('/basic', (req, res)=>{
-  pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-  var query =  '';
-  client.query(query, (err, result)=>{
-  if(!err)
-  res.json({'success':true, "message":"Select is successful",'result':result.rows});
-  else {
-  res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
-);
-*/
-module.exports = router;
+      /*
+      getFeed
+      router.post('/basic', (req, res)=>{
+      pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+      var query =  '';
+      client.query(query, (err, result)=>{
+      if(!err)
+      res.json({'success':true, "message":"Select is successful",'result':result.rows});
+      else {
+      res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
+    );
+    */
+    module.exports = router;
