@@ -105,11 +105,11 @@ function create(req, res) {
       this.error('Channel can not be empty');
       return;
     }
-    res.send('File has been saved into '+ destination+files.file.filename)
+    res.json({'success':"true",'massage':'File has been saved into '+ destination+files.file.filename})
   });
 
   upload.on('error', function(err) {
-    res.send(err);
+    res.json('success':"false",'err':err);
   });
 
 
