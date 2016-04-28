@@ -115,9 +115,9 @@ router.post('/api/upload', function(req, res) {
 
     upload.on('end', function(fields, files) {
         console.log(fields);
-        if (!fields.description) {
+        if (!fields.user) {
             this.cleanup();
-            this.error('Channel can not be empty');
+            this.error('user can not be empty');
             return;
         }
         res.json({
