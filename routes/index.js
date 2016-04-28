@@ -101,6 +101,9 @@ router.post('/api/upload', function(req, res) {
           console.log("the nane " ,name)
             fileName = file.filename.split(".").pop();
             return fileName;
+        },
+        messages: {
+          invalidRequest : "invalidRequest"
         }
     });
 
