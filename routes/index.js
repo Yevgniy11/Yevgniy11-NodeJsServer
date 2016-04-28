@@ -99,12 +99,11 @@ router.post('/api/upload', function(req, res){
   //the new addwd version
   fs.readFile(old_path, function(err, data) {
     fs.writeFile(new_path, data, function(err) {
-      console.log("data" , data)
       fs.unlink(old_path, function(err) {
         if (err) {
           res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
         } else {
-          res.json({'success': true,'path':new_path});
+          res.json({'success': true,'path':result});
         }
       });
     });
