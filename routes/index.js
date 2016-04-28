@@ -93,6 +93,7 @@ router.post('/api/upload', function(req, res) {
         dest: destination,
         minNumberOfFiles: 0,
         rename: function(name, file) {
+          console.log("the nane " ,name)
             fileName = file.filename.split(".").pop();
             return fileName;
         }
