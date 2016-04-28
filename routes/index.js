@@ -82,7 +82,7 @@ router.post('/incrementLikes', (req, res)=>{
 
 var Upload = require('upload-file');
 router.post('/api/upload', function(req, res) {
-    console.log(req.body.fileUpload)
+    console.log(req.body.file)
     var dir = 'public/images';
     if (!fs.existsSync(dir)){
       console.log("exist")
