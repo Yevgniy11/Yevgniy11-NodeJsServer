@@ -85,6 +85,7 @@ router.post('/api/upload', function(req, res) {
     var uri = "http://nodejsserverproject.herokuapp.com/";
     var destination = 'public/images';
     var fileName = null;
+    console.log(uri , destination , fileName , "odsmodsa");
     var upload = new Upload({
         maxNumberOfFiles: 10,
         // Byte unit
