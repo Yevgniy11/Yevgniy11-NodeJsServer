@@ -103,7 +103,6 @@ router.post('/api/upload', function(req, res) {
             return fileName;
         }
     });
-    console.log("her");
 
     upload.on('end', function(fields, files) {
         console.log(fields);
@@ -119,6 +118,7 @@ router.post('/api/upload', function(req, res) {
     });
 
     upload.on('error', function(err) {
+      console.log("err",err)
         res.json({
             'success': "false",
             'err': err
