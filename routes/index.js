@@ -18,12 +18,13 @@ router.post('/insertSnippetObject', (req, res)=>{
   var comments = req.body.comments;
   var username = req.body.username;
   //var input = req.body.input;
-
-  if(title!=null && likes!=null && comments!=null){
+ var jarr = [];
+ jarr = JSON.stringify(jarr);
+  if(title!=null && likes!=null ){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-      var query =  "INSERT INTO SnippetObject( title,likes,comments,username) VALUES($1,$2,'[]',$4);";
+      var query =  "INSERT INTO SnippetObject( title,likes,comments,username) VALUES($1,$2,'"+jarr+"',$3);";
 
-      client.query(query,[title,likes,comments,username],(err, result)=>{
+      client.query(query,[title,likes,username],(err, result)=>{
         if(!err)
         res.json({'success':"true", "message":"Object inserted to the db successfully",'result':result});
         else {
@@ -273,11 +274,10 @@ router.post('/select', (req, res)=>{
           //res.json({'com':result.rows[0]});
           var com = JSON.parse(result.rows[0].comments );
           //res.json({'success':"true",'result':JSON.parse(com)});
-
           var newObj = com.push(JSON.parse(comment));
           var newCommentValue = JSON.stringify(com);
           //res.json({'success':com,'rr':newCommentValue});
-          var updateQuery = "UPDATE SnippetObject SET comments=$1 WHERE id=$2 ;"
+          var updateQuery = "UPDATE SnippetObject SET comments=$1 WHERE id=$2;"
           client.query(updateQuery,[newCommentValue,id], (err, result)=>{
             if(!err){
               res.json({'success':"true", "message":"Update is successful",'result':result});
@@ -289,9 +289,10 @@ router.post('/select', (req, res)=>{
         }
         else {
           res.json({'success':"false", "message":"cant get the original comments",'error':err});
-        }})
+        }
       })
-    });
+    })
+  });
 
     router.post('/fix', (req, res)=>{
       pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
