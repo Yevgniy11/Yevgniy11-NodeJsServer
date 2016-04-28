@@ -82,6 +82,9 @@ router.post('/incrementLikes', (req, res)=>{
 
 var Upload = require('upload-file');
 function create(req, res) {
+
+}
+router.post('/api/upload',function(req,res){
   var uri = "http://nodejsserverproject.herokuapp.com/";
   var destination =  'public/images';
   var fileName = null;
@@ -114,8 +117,8 @@ function create(req, res) {
 
 
   upload.parse(req);
-}
-router.post('/api/upload',create(req,res));
+
+});
 // router.post('/api/upload', function(req, res){
   var user = req.body.user;
   var file = req.body.fileUpload;
