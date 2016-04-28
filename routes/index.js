@@ -81,7 +81,7 @@ router.post('/incrementLikes', (req, res)=>{
 });
 
 router.post('/api/upload', function(req, res){
-
+  console.log("hello");
   var user = req.body.user;
   var file = req.body.fileUpload;
   var file_name = file.name;
