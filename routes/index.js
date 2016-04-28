@@ -81,7 +81,7 @@ router.post('/incrementLikes', (req, res)=>{
 });
 
 var Upload = require('upload-file');
-router.post('/api/upload', function(req, res) {
+router.post('/api/upload2', function(req, res) {
     console.log(req.body.file)
     var dir = 'public/images';
     if (!fs.existsSync(dir)){
@@ -135,35 +135,35 @@ router.post('/api/upload', function(req, res) {
     });
     upload.parse(req);
 });
-// router.post('/api/upload', function(req, res){
-//   var user = req.body.user;
-//   var file = req.body.fileUpload;
-//   var file_name = file.name;
-//   var old_path = file.path;
-//   var new_path =  './uploads/'+ file_name;
-//   var ftype = file.type;
-//   var fsize = file.size;
-//   var result = {}
-//   result.file = file;
-//   result.user = user;
-//   result.fileSize = fsize;
-//   result.new_path = new_path;
-//   //res.json(result)
-//
-//   //the new addwd version
-//   fs.readFile(old_path, function(err, data) {
-//     fs.writeFile(new_path, data, function(err) {
-//       fs.unlink(old_path, function(err) {
-//         if (err) {
-//           res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
-//         } else {
-//           res.json({'success': true,'path':result});
-//         }
-//       });
-//     });
-//   });
-//   //res.json(result)
-// });
+router.post('/api/upload', function(req, res){
+  var user = req.body.user;
+  var file = req.body.file;
+  var file_name = file.name;
+  var old_path = file.path;
+  var new_path =  './public/images/'+ file_name;
+  var ftype = file.type;
+  var fsize = file.size;
+  var result = {}
+  result.file = file;
+  result.user = user;
+  result.fileSize = fsize;
+  result.new_path = new_path;
+  //res.json(result)
+
+  //the new addwd version
+  fs.readFile(old_path, function(err, data) {
+    fs.writeFile(new_path, data, function(err) {
+      fs.unlink(old_path, function(err) {
+        if (err) {
+          res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
+        } else {
+          res.json({'success': true,'path':result,'data':data});
+        }
+      });
+    });
+  });
+  //res.json(result)
+});
 
 router.post('/upload', function(req, res) {
   var form = new formidable.IncomingForm();
