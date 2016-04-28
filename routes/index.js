@@ -103,8 +103,13 @@ router.post('/api/upload', function(req, res) {
             return fileName;
         },
         messages: {
-          invalidRequest : "invalidRequest"
-        }
+            maxNumberOfFiles: 'Maximum number of files exceeded',
+            minNumberOfFiles: 'Less than minimum number of files',
+            acceptFileTypes: 'File type not allowed',
+            maxFileSize: 'File is too large',
+            minFileSize: 'File is too small',
+            invalidRequest: 'Invalid request'
+          }
     });
 
     upload.on('end', function(fields, files) {
