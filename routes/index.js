@@ -109,7 +109,7 @@ function create(req, res) {
   });
 
   upload.on('error', function(err) {
-    res.json('success':"false",'err':err);
+    res.json({'success':"false",'err':err});
   });
 
 
