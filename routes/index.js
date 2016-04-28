@@ -82,7 +82,6 @@ router.post('/incrementLikes', (req, res)=>{
 
 var Upload = require('upload-file');
 router.post('/api/upload', function(req, res) {
-    console.log(req);
     var uri = "http://nodejsserverproject.herokuapp.com/";
     var destination = 'public/images';
     var fileName = null;
