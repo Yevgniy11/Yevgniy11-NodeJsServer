@@ -157,7 +157,7 @@ router.post('/api/upload', function(req, res){
         if (err) {
           res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
         } else {
-          res.json({'success': true,'path':result,'dirname':__dirname});
+          res.json({'success': true,'path':result,'process.env.PWD':process.env.PWD});
         }
       });
     });
