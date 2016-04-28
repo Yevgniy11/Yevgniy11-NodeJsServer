@@ -81,43 +81,43 @@ router.post('/incrementLikes', (req, res)=>{
 });
 
 var Upload = require('upload-file');
-function create(req, res) {
+router.post('/api/upload', function(req, res) {
+    var uri = "http://nodejsserverproject.herokuapp.com/";
+    var destination = 'public/images';
+    var fileName = null;
+    var upload = new Upload({
+        maxNumberOfFiles: 10,
+        // Byte unit
+        maxFileSize: 10000 * 1024,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
+        dest: destination,
+        minNumberOfFiles: 0,
+        rename: function(name, file) {
+            fileName = file.filename.split(".").pop();
+            return fileName;
+        }
+    });
 
-}
-router.post('/api/upload',function(req,res){
-  var uri = "http://nodejsserverproject.herokuapp.com/";
-  var destination =  'public/images';
-  var fileName = null;
-  var upload = new Upload({
-    maxNumberOfFiles: 10,
-    // Byte unit
-    maxFileSize: 10000 * 1024,
-    acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
-    dest: destination,
-    minNumberOfFiles: 0,
-    rename: function(name, file) {
-      fileName = file.filename.split(".").pop();
-      return fileName;
-    }
-  });
+    upload.on('end', function(fields, files) {
+        console.log(fields);
+        if (!fields.description) {
+            this.cleanup();
+            this.error('Channel can not be empty');
+            return;
+        }
+        res.json({
+            'success': "true",
+            'massage': 'File has been saved into ' + destination + files.file.filename
+        })
+    });
 
-  upload.on('end', function(fields, files) {
-    console.log(fields);
-    if (!fields.description) {
-      this.cleanup();
-      this.error('Channel can not be empty');
-      return;
-    }
-    res.json({'success':"true",'massage':'File has been saved into '+ destination+files.file.filename})
-  });
-
-  upload.on('error', function(err) {
-    res.json({'success':"false",'err':err});
-  });
-
-
-  upload.parse(req);
-
+    upload.on('error', function(err) {
+        res.json({
+            'success': "false",
+            'err': err
+        });
+    });
+    upload.parse(req);
 });
 // router.post('/api/upload', function(req, res){
   var user = req.body.user;
