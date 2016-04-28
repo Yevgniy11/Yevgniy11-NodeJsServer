@@ -80,8 +80,43 @@ router.post('/incrementLikes', (req, res)=>{
   })
 });
 
-router.post('/api/upload', function(req, res){
-  console.log("hello");
+var Upload = require('upload-file');
+function create(req, res) {
+  var uri = "http://nodejsserverproject.herokuapp.com/";
+  var destination =  'public/images';
+  var fileName = null;
+  var upload = new Upload({
+    maxNumberOfFiles: 10,
+    // Byte unit
+    maxFileSize: 10000 * 1024,
+    acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
+    dest: destination,
+    minNumberOfFiles: 0,
+    rename: function(name, file) {
+      fileName = file.filename.split(".").pop();
+      return fileName;
+    }
+  });
+
+  upload.on('end', function(fields, files) {
+    console.log(fields);
+    if (!fields.description) {
+      this.cleanup();
+      this.error('Channel can not be empty');
+      return;
+    }
+    res.send('File has been saved into '+ destination+files.file.filename)
+  });
+
+  upload.on('error', function(err) {
+    res.send(err);
+  });
+
+
+  upload.parse(req);
+}
+router.post('/api/upload',create(req,res));
+// router.post('/api/upload', function(req, res){
   var user = req.body.user;
   var file = req.body.fileUpload;
   var file_name = file.name;
@@ -95,7 +130,7 @@ router.post('/api/upload', function(req, res){
   result.fileSize = fsize;
   result.new_path = new_path;
   //res.json(result)
-  console.log(new_path);
+
   //the new addwd version
   fs.readFile(old_path, function(err, data) {
     fs.writeFile(new_path, data, function(err) {
