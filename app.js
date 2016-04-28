@@ -9,7 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 //var uploads = require('./uploads');
 //var tmp = require('./tmp');
-var snippetdbutils = require('./routes/snippetdbutils');
+//var snippetdbutils = require('./routes/snippetdbutils');
 
 
 var app = express();
@@ -24,13 +24,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
+
 
 app.use('/', routes);
 app.use('/users', users);
 //app.use('./uploads',uploads);
 //app.use('/tmp', tmp);
-app.use('/snippetdbutils', snippetdbutils);
+//app.use('/snippetdbutils', snippetdbutils);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
