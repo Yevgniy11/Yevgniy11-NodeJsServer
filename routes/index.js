@@ -81,6 +81,7 @@ router.post('/incrementLikes', (req, res)=>{
 });
 
 router.post('/api/upload', function(req, res){
+
   var user = req.body.user;
   var file = req.body.fileUpload;
   var file_name = file.name;
@@ -94,10 +95,11 @@ router.post('/api/upload', function(req, res){
   result.fileSize = fsize;
   result.new_path = new_path;
   //res.json(result)
-
+  console.log(new_path);
   //the new addwd version
   fs.readFile(old_path, function(err, data) {
     fs.writeFile(new_path, data, function(err) {
+      console.log(data)
       fs.unlink(old_path, function(err) {
         if (err) {
           res.json({'success': false,'err':err,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
