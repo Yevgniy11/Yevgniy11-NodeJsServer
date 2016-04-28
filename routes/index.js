@@ -169,14 +169,14 @@ router.post('/upload', function(req, res) {
   var form = new formidable.IncomingForm();
   form.parse(req, function(err, fields, files) {
     // `file` is the name of the <input> field of type `file`
-    var old_path = files.fileUpload.path,
-    file_size = files.fileUpload.size,
-    file_ext = files.fileUpload.name.split('.').pop(),
+    var old_path = files.file.path,
+    file_size = files.file.size,
+    file_ext = files.file.name.split('.').pop(),
     index = old_path.lastIndexOf('/') + 1,
     file_name = old_path.substr(index),
-    new_path = path.join(process.env.PWD, '/uploads/', file_name + '.' + file_ext);
+    new_path = path.join(process.env.PWD, '/public/', file_name + '.' + file_ext);
 
-    res.json({'success': false,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
+    //res.json({'success': false,'photo':file_name + ' // ' + new_path,'oldpath':old_path});
     fs.readFile(old_path, function(err, data) {
       fs.writeFile(new_path, data, function(err) {
         fs.unlink(old_path, function(err) {
