@@ -84,6 +84,7 @@ var Upload = require('upload-file');
 router.post('/api/upload', function(req, res) {
     var dir = 'public/images';
     if (!fs.existsSync(dir)){
+      console.log("exist")
       fs.mkdirSync(dir);
     }
     var uri = "http://nodejsserverproject.herokuapp.com/";
