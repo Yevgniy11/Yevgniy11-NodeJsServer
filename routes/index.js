@@ -361,6 +361,30 @@ router.post('/select', (req, res)=>{
           }})
         })
       });
+
+      router.post('/fix', (req, res)=>{
+        pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+          var query =  "UPDATE SnippetObject SET comments = '[]' ;";
+          client.query(query, (err, result)=>{
+            if(!err)
+            res.json({'success':"true", "message":"fix is successful",'result':result});
+            else {
+              res.json({'success':"false", "message":"some thing went wrong",'error':err});
+            }})
+          })
+        });
+
+        router.post('/deleteFromSnippet', (req, res)=>{
+          pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+            var query =  "DELETE FROM SnippetObject;";
+            client.query(query, (err, result)=>{
+              if(!err)
+              res.json({'success':"true", "message":"delete is successful",'result':result});
+              else {
+                res.json({'success':"false", "message":"some thing went wrong",'error':err});
+              }})
+            })
+          });
       /*
       getFeed
       router.post('/basic', (req, res)=>{
