@@ -23,8 +23,8 @@ router.post('/insertSnippetObject', (req, res)=>{
  jarr = JSON.stringify(jarr);
   if(title!=null && likes!=null && input!=null&& username!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+      if(!err){
       var query =  "INSERT INTO SnippetObject( title,likes,comments,username,input) VALUES($1,$2,'"+jarr+"',$3,$4);";
-
       client.query(query,[title,likes,username,input],(err, result)=>{
         if(!err)
         res.json({'success':"true", "message":"Object inserted to the db successfully",'result':result});
@@ -32,6 +32,7 @@ router.post('/insertSnippetObject', (req, res)=>{
           res.json({'success':"false", "message":"some thing went wrong",'err':err});
         }
       })
+}
     });
   }else
   {
