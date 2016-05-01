@@ -78,7 +78,8 @@ router.post('/incrementLikes', (req, res)=>{
       }
     })
     //res.json({'dd':tempLike});
-
+    if(err)
+      res.json({'success':"false", "message":"some thing went wrong, check heroku",'result':result});
   })
 });
 
