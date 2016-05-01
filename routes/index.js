@@ -19,20 +19,20 @@ router.post('/insertSnippetObject', (req, res)=>{
   var username = req.body.username;
   var input = req.body.input;
 
- var jarr = [];
- jarr = JSON.stringify(jarr);
+  var jarr = [];
+  jarr = JSON.stringify(jarr);
   if(title!=null && likes!=null && input!=null&& username!=null){
     pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
       if(!err){
-      var query =  "INSERT INTO SnippetObject( title,likes,comments,username,input) VALUES($1,$2,'"+jarr+"',$3,$4);";
-      client.query(query,[title,likes,username,input],(err, result)=>{
-        if(!err)
-        res.json({'success':"true", "message":"Object inserted to the db successfully",'result':result});
-        else {
-          res.json({'success':"false", "message":"some thing went wrong",'err':err});
-        }
-      })
-}
+        var query =  "INSERT INTO SnippetObject( title,likes,comments,username,input) VALUES($1,$2,'"+jarr+"',$3,$4);";
+        client.query(query,[title,likes,username,input],(err, result)=>{
+          if(!err)
+          res.json({'success':"true", "message":"Object inserted to the db successfully",'result':result});
+          else {
+            res.json({'success':"false", "message":"some thing went wrong",'err':err});
+          }
+        })
+      }
     });
   }else
   {
@@ -65,7 +65,7 @@ router.post('/incrementLikes', (req, res)=>{
         var insertQuery ="UPDATE SnippetObject SET likes=$1 WHERE id=$2;";
         client.query(insertQuery,[tempLike,objectId], (err, result)=>{
           if(!err){
-            res.json({'success':"true", "message":"Insert is successful",'result':result});
+            res.json({'success':"true", "message":"Like was incremented",'result':result});
           }
           else {
             res.json({'success':"false", "message":"some thing went wrong,when incrementing the like count",'error':err});
@@ -84,58 +84,58 @@ router.post('/incrementLikes', (req, res)=>{
 
 var Upload = require('upload-file');
 router.post('/api/upload2', function(req, res) {
-    console.log(req.body.file)
-    var dir = 'public/images';
-    if (!fs.existsSync(dir)){
-      console.log("exist")
-      fs.mkdirSync(dir);
+  console.log(req.body.file)
+  var dir = 'public/images';
+  if (!fs.existsSync(dir)){
+    console.log("exist")
+    fs.mkdirSync(dir);
+  }
+  var uri = "http://nodejsserverproject.herokuapp.com/";
+  var destination = 'public/images';
+  var fileName = null;
+  var upload = new Upload({
+    maxNumberOfFiles: 10,
+    // Byte unit
+    maxFileSize: 10000 * 1024,
+    acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
+    dest: destination,
+    minNumberOfFiles: 0,
+    rename: function(name, file) {
+      console.log("the nane " ,name)
+      fileName = file.filename.split(".").pop();
+      return fileName;
+    },
+    messages: {
+      maxNumberOfFiles: 'Maximum number of files exceeded',
+      minNumberOfFiles: 'Less than minimum number of files',
+      acceptFileTypes: 'File type not allowed',
+      maxFileSize: 'File is too large',
+      minFileSize: 'File is too small',
+      invalidRequest: 'Invalid request'
     }
-    var uri = "http://nodejsserverproject.herokuapp.com/";
-    var destination = 'public/images';
-    var fileName = null;
-    var upload = new Upload({
-        maxNumberOfFiles: 10,
-        // Byte unit
-        maxFileSize: 10000 * 1024,
-        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|css)$/i,
-        dest: destination,
-        minNumberOfFiles: 0,
-        rename: function(name, file) {
-          console.log("the nane " ,name)
-            fileName = file.filename.split(".").pop();
-            return fileName;
-        },
-        messages: {
-            maxNumberOfFiles: 'Maximum number of files exceeded',
-            minNumberOfFiles: 'Less than minimum number of files',
-            acceptFileTypes: 'File type not allowed',
-            maxFileSize: 'File is too large',
-            minFileSize: 'File is too small',
-            invalidRequest: 'Invalid request'
-          }
-    });
+  });
 
-    upload.on('end', function(fields, files) {
-        console.log(fields);
-        if (!fields.user) {
-            this.cleanup();
-            this.error('user can not be empty');
-            return;
-        }
-        res.json({
-            'success': "true",
-            'massage': 'File has been saved into ' + destination + files.file.filename
-        })
-    });
+  upload.on('end', function(fields, files) {
+    console.log(fields);
+    if (!fields.user) {
+      this.cleanup();
+      this.error('user can not be empty');
+      return;
+    }
+    res.json({
+      'success': "true",
+      'massage': 'File has been saved into ' + destination + files.file.filename
+    })
+  });
 
-    upload.on('error', function(err) {
-      console.log("err",err)
-        res.json({
-            'success': "false",
-            'err': err
-        });
+  upload.on('error', function(err) {
+    console.log("err",err)
+    res.json({
+      'success': "false",
+      'err': err
     });
-    upload.parse(req);
+  });
+  upload.parse(req);
 });
 router.post('/api/upload', function(req, res){
   var user = req.body.user;
@@ -207,7 +207,10 @@ router.post('/login', (req, res)=>{
       }
       else
       res.json({'success':"false", "message":"some thing went wrong",'error':err});
-    })})
+    });
+    if(err)
+      res.json({'success':"false", "message":"some thing went wrong",'error':err});
+  })
   });
 
   router.post('/registerUser', (req, res)=>{
@@ -351,6 +354,18 @@ router.post('/select', (req, res)=>{
     })
   });
 
+  router.post('/fix', (req, res)=>{
+    pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+      var query =  "UPDATE SnippetObject SET comments = '[]' ;";
+      client.query(query, (err, result)=>{
+        if(!err)
+        res.json({'success':"true", "message":"fix is successful",'result':result});
+        else {
+          res.json({'success':"false", "message":"some thing went wrong",'error':err});
+        }})
+      })
+    });
+
     router.post('/fix', (req, res)=>{
       pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
         var query =  "UPDATE SnippetObject SET comments = '[]' ;";
@@ -363,39 +378,27 @@ router.post('/select', (req, res)=>{
         })
       });
 
-      router.post('/fix', (req, res)=>{
+      router.post('/deleteFromSnippet', (req, res)=>{
         pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-          var query =  "UPDATE SnippetObject SET comments = '[]' ;";
+          var query =  "DELETE FROM SnippetObject;";
           client.query(query, (err, result)=>{
             if(!err)
-            res.json({'success':"true", "message":"fix is successful",'result':result});
+            res.json({'success':"true", "message":"delete is successful",'result':result});
             else {
               res.json({'success':"false", "message":"some thing went wrong",'error':err});
             }})
           })
         });
-
-        router.post('/deleteFromSnippet', (req, res)=>{
-          pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-            var query =  "DELETE FROM SnippetObject;";
-            client.query(query, (err, result)=>{
-              if(!err)
-              res.json({'success':"true", "message":"delete is successful",'result':result});
-              else {
-                res.json({'success':"false", "message":"some thing went wrong",'error':err});
-              }})
-            })
-          });
-      /*
-      getFeed
-      router.post('/basic', (req, res)=>{
-      pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
-      var query =  '';
-      client.query(query, (err, result)=>{
-      if(!err)
-      res.json({'success':true, "message":"Select is successful",'result':result.rows});
-      else {
-      res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
-    );
-    */
-    module.exports = router;
+        /*
+        getFeed
+        router.post('/basic', (req, res)=>{
+        pg.connect(process.env.DATABASE_URL, (err, client, done)=>{
+        var query =  '';
+        client.query(query, (err, result)=>{
+        if(!err)
+        res.json({'success':true, "message":"Select is successful",'result':result.rows});
+        else {
+        res.json({'success':false, "message":"some thing went wrong",'error':err});}})})}
+      );
+      */
+      module.exports = router;
